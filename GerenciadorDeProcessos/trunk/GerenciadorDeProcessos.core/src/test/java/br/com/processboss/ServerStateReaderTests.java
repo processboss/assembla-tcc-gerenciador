@@ -22,6 +22,9 @@ public class ServerStateReaderTests {
 
 	@Test
 	public void testRead() throws Exception {
+		
+		//new ABC().run();
+		
 		//while(true){
 			ServerState serverState = serverStateService.getServerStateReader().read();
 			assertNotNull(serverState);
