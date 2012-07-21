@@ -11,7 +11,8 @@
 
 	<!-- Bean com as configuracoes de conexao com o banco, estamos utilizando 
 		o CommonsDBCP da Apache para gerenciar nosso pool de conexão -->
-	<bean id="dataSource" name="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" name="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${database.driver}" />
 		<property name="url" value="${database.url}" />
 		<property name="username" value="${database.user}" />
@@ -24,5 +25,5 @@
 
 	<import resource="persistence-hibernate-context.xml" />
 	<import resource="persistence-dao-context.xml" />
-	
+
 </beans>

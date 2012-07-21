@@ -1,47 +1,35 @@
 package br.com.processboss.core.model;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.apache.commons.lang.builder.CompareToBuilder;
-
+/**
+ * Classe que representa uma tarefa
+ */
 @Entity
-public class Task implements Serializable, Comparable<Task> {
+public class Task implements Serializable {
 
 	private static final long serialVersionUID = -5254344032568432179L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	private String description;
-	
-	@Column(name="date_creation")
-	private Date dateCreation;
-	
-	private int executionOrder;
-	
-	@Column(length=1000)
-	private String path;
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="task_id")
-	private List<TaskExecutionInfo> executions;
-	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<ProcessInTask> processes;
+
 	public Task() {
-		this.executions = new LinkedList<TaskExecutionInfo>();
+		processes = new ArrayList<ProcessInTask>();
 	}
 
 	public long getId() {
@@ -67,39 +55,19 @@ public class Task implements Serializable, Comparable<Task> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Date getDateCreation() {
-		return dateCreation;
+	
+	public List<ProcessInTask> getProcesses() {
+		return processes;
 	}
 
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-
-	public int getExecutionOrder() {
-		return executionOrder;
-	}
-
-	public void setExecutionOrder(int order) {
-		this.executionOrder = order;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
+	public void setProcesses(List<ProcessInTask> processes) {
+		this.processes = processes;
 	}
 	
-	public List<TaskExecutionInfo> getExecutions() {
-		return executions;
+	public void addProcess(ProcessInTask process){
+		processes.add(process);
 	}
 
-	public void addExecution(TaskExecutionInfo execution) {
-		this.executions.add(execution);
-	}
-	
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -119,13 +87,5 @@ public class Task implements Serializable, Comparable<Task> {
 			return false;
 		return true;
 	}
-
-	public int compareTo(Task o) {
-		if(o == null){
-			return 0;
-		}
-		return new CompareToBuilder().append(this.getExecutionOrder(), o.getExecutionOrder()).toComparison();
-	}
-
 
 }
