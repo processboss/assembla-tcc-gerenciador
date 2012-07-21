@@ -1,4 +1,4 @@
-package br.com.processboss.core.persistence.dao.hibernate;
+package br.com.processboss.core.persistence.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -11,20 +11,20 @@ import org.hibernate.HibernateException;
 import org.hibernate.criterion.Criterion;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import br.com.processboss.core.persistence.dao.GenericDAO;
+import br.com.processboss.core.persistence.dao.IDAO;
 
 
 //Adicionando heranca ao HibernateDaoSupport temos diversas funcionalidades do Spring  
 //junto ao Hibernate, implementamos tambem nosso DAO generico para ter mobilidade.  
-public class HibernateGenericDAO<T, ID extends Serializable> extends
-		HibernateDaoSupport implements GenericDAO<T, ID> {
+public class GenericDAO<T, ID extends Serializable> extends
+		HibernateDaoSupport implements IDAO<T, ID> {
 
-	private static Log LOG = LogFactory.getLog(HibernateGenericDAO.class);
+	private static Log LOG = LogFactory.getLog(GenericDAO.class);
 
 	// Nosso construtor vai setar automaticamente via Reflection qual classe
 	// estamos tratando.
 	@SuppressWarnings("unchecked")
-	public HibernateGenericDAO() {
+	public GenericDAO() {
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
@@ -40,7 +40,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> extends
 		try {
 			this.getHibernateTemplate().delete(entity);
 		} catch (final HibernateException ex) {
-			HibernateGenericDAO.LOG.error(ex);
+			GenericDAO.LOG.error(ex);
 			throw convertHibernateAccessException(ex);
 		}
 	}
@@ -50,7 +50,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> extends
 			return (T) this.getHibernateTemplate()
 					.get(getPersistentClass(), id);
 		} catch (final HibernateException ex) {
-			HibernateGenericDAO.LOG.error(ex);
+			GenericDAO.LOG.error(ex);
 			throw convertHibernateAccessException(ex);
 		}
 	}
@@ -59,7 +59,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> extends
 		try {
 			return this.getHibernateTemplate().loadAll(getPersistentClass());
 		} catch (final HibernateException ex) {
-			HibernateGenericDAO.LOG.error(ex);
+			GenericDAO.LOG.error(ex);
 			throw convertHibernateAccessException(ex);
 		}
 	}
@@ -69,11 +69,32 @@ public class HibernateGenericDAO<T, ID extends Serializable> extends
 			this.getHibernateTemplate().save(entity);
 			return entity;
 		} catch (final HibernateException ex) {
-			HibernateGenericDAO.LOG.error(ex);
+			GenericDAO.LOG.error(ex);
+			throw convertHibernateAccessException(ex);
+		}
+	}
+	
+	public T update(T entity) {
+		try {
+			this.getHibernateTemplate().update(entity);
+			return entity;
+		} catch (final HibernateException ex) {
+			GenericDAO.LOG.error(ex);
+			throw convertHibernateAccessException(ex);
+		}
+	}
+	
+	public T saveOrUpdate(T entity) {
+		try {
+			this.getHibernateTemplate().saveOrUpdate(entity);
+			return entity;
+		} catch (final HibernateException ex) {
+			LOG.error(ex);
 			throw convertHibernateAccessException(ex);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected List<T> findByCriteria(Criterion... criterion) {
 		try {
 			Criteria crit = this.getHibernateTemplate().getSessionFactory()
@@ -83,7 +104,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> extends
 			}
 			return crit.list();
 		} catch (final HibernateException ex) {
-			HibernateGenericDAO.LOG.error(ex);
+			GenericDAO.LOG.error(ex);
 			throw convertHibernateAccessException(ex);
 		}
 	}

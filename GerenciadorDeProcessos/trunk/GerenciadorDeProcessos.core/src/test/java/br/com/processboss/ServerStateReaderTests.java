@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.com.processboss.core.model.ServerState;
-import br.com.processboss.core.service.ServerStateService;
+import br.com.processboss.core.bean.ServerState;
+import br.com.processboss.core.service.IServerStateService;
 
 
 
@@ -18,20 +18,20 @@ import br.com.processboss.core.service.ServerStateService;
 public class ServerStateReaderTests {
 
 	@Autowired
-	private ServerStateService serverStateService;
+	private IServerStateService serverStateService;
 
 	@Test
 	public void testRead() throws Exception {
 		
-		//new ABC().run();
-		
-		//while(true){
-			ServerState serverState = serverStateService.getServerStateReader().read();
+		while(true){
+			ServerState serverState = serverStateService.read();
 			assertNotNull(serverState);
-			System.out.println("### " + serverState.getFreeMemory() + "/" + serverState.getTotalMemory());
+			System.out.println("### " + serverState.getMemory().getUsed() 
+					+ "/" + serverState.getMemory().getTotal()
+					+ " (" + serverState.getMemory().getUsedPercent() + "%)");
 
-		//	Thread.sleep(1000);
-		//}
+			Thread.sleep(1000);
+		}
 	}
 
 
