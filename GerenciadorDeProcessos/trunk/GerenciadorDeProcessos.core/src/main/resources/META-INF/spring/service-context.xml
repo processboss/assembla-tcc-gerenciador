@@ -17,5 +17,7 @@
 	<bean id="scheduleService" class="br.com.processboss.core.service.impl.ScheduleService" />
 	<bean id="taskService" class="br.com.processboss.core.service.impl.TaskService" />
 	<bean id="userService" class="br.com.processboss.core.service.impl.UserService" />
+	
+	<bean id="executorService" class="br.com.processboss.core.service.impl.ExecutorService" />
 
 </beans>
