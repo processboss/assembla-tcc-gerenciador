@@ -2,6 +2,9 @@ package br.com.processboss;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,15 @@ public class ServerStateReaderTests {
 
 			Thread.sleep(1000);
 		}
+	}
+	
+	@Test
+	public void testProcess() throws Exception {
+		String[] cmd = { "/bin/bash", "-c", "echo $PPID" };
+		Process p = Runtime.getRuntime().exec(cmd);
+		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		int pid = Integer.parseInt(br.readLine());
+		System.out.println(pid);
 	}
 
 
