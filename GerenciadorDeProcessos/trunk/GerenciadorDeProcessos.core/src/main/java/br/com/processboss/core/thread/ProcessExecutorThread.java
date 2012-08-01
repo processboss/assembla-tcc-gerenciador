@@ -41,7 +41,7 @@ public class ProcessExecutorThread implements Runnable {
 			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c","echo $$ && " +process.getPath());
 			java.lang.Process p = builder.start();
 			
-			int pid = getPID(p);
+			int pid = 1773;//getPID(p);
 
 			ProcessMonitorThread monitor = new ProcessMonitorThread(pid);
 			monitor.start();
@@ -61,7 +61,7 @@ public class ProcessExecutorThread implements Runnable {
 	
 	protected int getPID(java.lang.Process p) throws NumberFormatException, IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		return Integer.parseInt(br.readLine());
+		return Integer.parseInt(br.readLine()) + 1;
 	}
 
 }
