@@ -1,0 +1,93 @@
+@CHARSET "ISO-8859-1";
+
+/* luiza.martins */
+html, body  {  	
+	margin: 0;  	
+	padding: 0;  	
+	font-family: "Lucida Sans";
+	font-size: 12px;
+	color: #666;
+	background: #e6e6e6;
+	}    
+a, a:link, a:visited, a:active {
+	color: #2a72ab;
+	text-decoration: none;
+}
+a:hover {
+	color: #134c7a;
+}	
+#container  {  	
+	margin: 1em auto;
+	width: 894px;
+	}    
+#top {
+	background-image:url(../img/top.png);
+	background-repeat:no-repeat;
+	height: 128px;
+} 
+#rightCol  {
+	float: right;
+	width: 627px;
+	background-image:url(../img/right.png);
+	height: 200px;
+}    
+#rightCol p {
+	padding-top: 0px;
+	padding-right: 20px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+}
+#leftCol  {
+	float: left;
+	width: 267px;
+	margin: 0;
+	background-image:url(../img/left.png);
+	height: 200px;
+	color: #FFF;
+	}    
+#footer  {  	
+	clear: both;  	
+	background-image:url(../img/footer.png);
+	background-repeat:no-repeat;
+	height: 50px;
+	}
+
+.nav {
+	list-style-type: none;
+}
+.nav li  {
+	width: 201px;
+	background-image: url(../img/botao.png);
+	background-repeat: no-repeat;
+	height: 40px;
+	color: #8B8B8B;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 0px;
+	padding-left: 15px;
+}
+
+
+/* Marco.ollivier */
+#welcome{
+	height: 26px; 
+	text-align: right; 
+	margin-right: 5px;
+}
+
+#leftCol  {
+	height: 450px;
+}
+
+#rightCol  {
+ 	height: 450px;
+}
+
+.main{
+	width: 615px; 
+	margin-left: 5px;
+}
+
+.not-null{
+	color: red;	
+}

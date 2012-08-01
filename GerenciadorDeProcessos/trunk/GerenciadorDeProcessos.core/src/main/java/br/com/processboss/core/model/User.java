@@ -25,7 +25,18 @@ public class User implements Serializable {
 	private boolean administrator;
 
 	public User() {	}
-	
+
+	//TODO apenas usar durante o período de dados mocados
+	public User(Long id, String name, String login, String password,
+			boolean administrator) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.login = login;
+		this.password = password;
+		this.administrator = administrator;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -65,6 +76,13 @@ public class User implements Serializable {
 	public void setAdministrator(boolean administrator) {
 		this.administrator = administrator;
 	}
+
+	public String getAdministratorStr() {
+		if(administrator) return "Administrador";
+		else return "Usuário";
+	}
+	
+	
 
 	@Override
 	public int hashCode() {
