@@ -61,8 +61,8 @@ public class UserBean extends _Bean {
 	public List<User> getAllEntities(){
 //		System.out.println("testando");
 //		@SuppressWarnings("unused")
-//		List<User> u = userService.listAll();
-		return getEntities();
+//		return getEntities();
+		return userService.listAll();
 	}
 	
 	public String updateEntity(){
@@ -81,8 +81,8 @@ public class UserBean extends _Bean {
 	
 	public String saveOrUpdate(){
 		if(entity != null){
-//			userService.saveOrUpdate(entity);
-			entities.add(entity);
+			userService.saveOrUpdate(entity);
+//			entities.add(entity);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.FACES_MESSAGES, "Medico inserido/alterado com suscesso"));
 			return "index";
 		}else{
@@ -97,8 +97,8 @@ public class UserBean extends _Bean {
 	
 	public String delete(){
 		if(entity != null){
-//			userService.delete(entity);
-			entities.remove(entity);
+			userService.delete(entity);
+//			entities.remove(entity);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.FACES_MESSAGES, "Medico excluído com sucesso"));
 			return "index";
 		}else{
