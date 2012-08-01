@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+			
+	<ul class="nav">
+		<li>
+			<a href="/processboss/index.jsf"><span>Home</span></a>
+		</li>
+		<li>
+			<a href="/processboss/user/index.jsf"><span>Usuários</span></a>
+		</li>
+		
+		<!-- Admin -->
+		<c:if test="#{loginBean.usuario.tipoUsuario == 0}"> 	
+			<li>
+				<a href="../user/index.jsf"><span>Usuários</span></a>
+			</li>
+			<li>
+				<a href="../user/index.jsf"><span>Agendamentos</span></a>
+			</li>
+			<li>
+				<a href="../user/index.jsf"><span>Processos</span></a>
+			</li>
+			<li>
+				<a href="../user/index.jsf"><span>Tarefas</span></a>
+			</li>
+		</c:if>
+		
+	</ul>	
+	
+
+</html>

@@ -1,0 +1,34 @@
+@CHARSET "ISO-8859-1";
+
+/*luiza.martins*/
+#conteudo {
+	background-image:url(../img/login.png);
+	padding: 20px;
+	text-align: center;
+	margin: auto;
+}
+#top {
+	background-image:url(../img/top_login.png);
+}
+#footer {
+	background-image:url(../img/footer_login.png);
+}
+#login {
+	margin: auto;
+	width: 200px;
+}
+#botao_login {
+	background-image:url(../img/botao.png);
+	width:201px;
+	height:40px;
+	border:none;
+	background-color:transparent;
+	color:#134c7a;
+}
+
+/*marco.ollivier*/
+
+#error{
+	background-color: #FFBABA;
+    color: #D8000C;	
+}
