@@ -26,7 +26,6 @@ public class User implements Serializable {
 
 	public User() {	}
 
-	//TODO apenas usar durante o período de dados mocados
 	public User(Long id, String name, String login, String password,
 			boolean administrator) {
 		super();
@@ -79,7 +78,7 @@ public class User implements Serializable {
 
 	public String getAdministratorStr() {
 		if(administrator) return "Administrador";
-		else return "Usuário";
+		else return "Usuario";
 	}
 	
 	

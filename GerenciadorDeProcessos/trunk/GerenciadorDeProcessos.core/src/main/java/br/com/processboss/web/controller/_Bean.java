@@ -1,5 +1,6 @@
 package br.com.processboss.web.controller;
 
+import java.io.Serializable;
 import java.util.Locale;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -12,8 +13,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-public abstract class _Bean {
+public abstract class _Bean implements Serializable {
 
+	private static final long serialVersionUID = -519689694628568590L;
+	
 	@Autowired
 	protected ApplicationContext context;
 
@@ -53,8 +56,7 @@ public abstract class _Bean {
 		return FacesContext.getCurrentInstance();
 	}
 	
-	protected void addMessage(FacesMessage message)
-	{
+	protected void addMessage(FacesMessage message){
 		getFacesContext().addMessage(null, message);
 	}
 	

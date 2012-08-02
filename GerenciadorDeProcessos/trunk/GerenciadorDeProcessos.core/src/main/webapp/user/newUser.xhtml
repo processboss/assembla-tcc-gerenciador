@@ -19,25 +19,25 @@
 					
 						<tr>
 							<td><h:outputLabel value="Nome: " /></td>
-							<td><p:inputText value="#{userBean.entity.name}" required="true" requiredMessage="Nome é obrigatório" /></td>
+							<td><p:inputText value="#{userController.entity.name}" required="true" requiredMessage="Nome é obrigatório" /></td>
 							
 						</tr>
 						<tr>
 							<td><h:outputLabel value="Login: " /></td>
-							<td><p:inputText value="#{userBean.entity.login}" required="true" requiredMessage="Login é obrigatório" /></td>
+							<td><p:inputText value="#{userController.entity.login}" required="true" requiredMessage="Login é obrigatório" /></td>
 						</tr>
 						<tr>
 							<td><h:outputLabel value="Senha: " /></td>
-							<td><p:inputText value="#{userBean.entity.password}" required="true" requiredMessage="Senha é obrigatório" type="password" /></td>
+							<td><p:inputText value="#{userController.entity.password}" required="true" requiredMessage="Senha é obrigatório" type="password" /></td>
 						</tr>
 						<tr>
 							<td><h:outputLabel value="Administrador: " /></td>
-							<td><p:selectBooleanCheckbox value="#{userBean.entity.administrator}"/></td>
+							<td><p:selectBooleanCheckbox value="#{userController.entity.administrator}"/></td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<p:commandButton value="Salvar" ajax="false" action="#{userBean.saveOrUpdate}" update="messages" />
-								<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{userBean.cancel}" />
+								<p:commandButton value="Salvar" ajax="false" action="#{userController.saveOrUpdate}" update="messages" />
+								<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{userController.cancel}" />
 							</td>
 						</tr>
 					
