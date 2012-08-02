@@ -12,10 +12,16 @@
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<project.alias>processboss</project.alias>
 		<spring.framework.version>3.0.6.RELEASE</spring.framework.version>
-		<jsf.version>2.1.7</jsf.version>
+		<jsf.version>2.0.9</jsf.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -85,6 +91,15 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		
+		<!-- Quartz -->
+		<!-- 
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+		 -->
 
 		<!-- Spring -->
 		<dependency>
@@ -143,15 +158,14 @@
 		
 		<!-- JSF -->
 		<dependency>
-			<groupId>javax.faces</groupId>
+			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>2.0.3</version>
-			<scope>runtime</scope>
+			<version>${jsf.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.faces</groupId>
+			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>2.0.3</version>
+			<version>${jsf.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		
@@ -170,13 +184,12 @@
 		</dependency>		
 		
 	</dependencies>
+
 	<build>
-		<outputDirectory>${basedir}/WebContent/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -192,9 +205,10 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<warName>${project.alias}</warName>
-					<webappDirectory>${project.build.directory}/${project.alias}.${project.packaging}</webappDirectory>
+					<webappDirectory>${project.build.directory}/${project.alias}/${project.alias}.${project.packaging}</webappDirectory>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
@@ -202,39 +216,41 @@
 					<warFile>${project.build.directory}/${project.alias}.${project.packaging}</warFile>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>org.jboss.repository.releases</id>
-			<name>JBoss Maven Release Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven</name>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>jboss</id>
-			<name>JBoss Maven repository</name>
-			<url>http://repository.jboss.org/maven2</url>
-		</repository>
-		<repository>
-			<id>prime-repo</id>
-			<name>Prime Technology Maven Repository</name>
-			<url>http://repository.prime.com.tr</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>java.net2</id>
+            <name>Repository hosting the jee6 artifacts</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+        </repository>
+        <repository>
+            <id>maven</id>
+            <url>http://www.ibiblio.org/maven</url>
+        </repository>
+        <repository>
+            <id>toplink</id>
+            <name>toplink Repository</name>
+            <url>http://maven.glassfish.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>jaspersoft</id>
+            <url>http://cropwiki.irri.org/m2repo/net/sf-gcp</url>
+        </repository>
+        <repository>
+            <id>prime-repo</id>
+            <name>Prime Technology Maven Repository</name>
+            <url>http://repository.prime.com.tr</url>
+            <layout>default</layout>
+        </repository>
+
+    </repositories>
 
 </project>

@@ -15,8 +15,8 @@
 			<div class="main">
 				<h:form id="formUserIndex">
 					<p:messages />
-					<p:commandLink value="Adicionar" ajax="false" action="#{userBean.newEntity}" />
-					<p:dataTable id="table" var="entity" value="#{userBean.allEntities}"
+					<p:commandLink value="Adicionar" ajax="false" action="#{userController.newEntity}" />
+					<p:dataTable id="table" var="entity" value="#{userController.allEntities}"
 						emptyMessage="Nenhum registro" paginator="true" 
 						paginatorAlwaysVisible="false" rows="10">
 						
@@ -42,13 +42,13 @@
 							</p:column>
 							
 							<p:column style="width:200px;" >
-								<p:commandLink value="Alterar" ajax="false" action="#{userBean.updateEntity}" >
+								<p:commandLink value="Alterar" ajax="false" action="#{userController.updateEntity}" >
 									<f:param name="entity" value="#{entity}" />
 								</p:commandLink>
 							</p:column>
 						
 							<p:column style="width:200px;" >
-								<p:commandLink value="Excluir" actionListener="#{userBean.captureUser}" onclick="deleteDialog.show()" update="panelDeleteMessage" >
+								<p:commandLink value="Excluir" actionListener="#{userController.captureUser}" onclick="deleteDialog.show()" update="panelDeleteMessage" >
 									<f:param name="entity" value="#{entity}" />
 								</p:commandLink>
 							</p:column>
@@ -61,9 +61,9 @@
 						draggable="false" closable="false" resizable="false" >
 						<p:panel id="panelDeleteMessage">
 
-							<h:outputLabel value="Gostaria realmente de excluir o usuário #{userBean.entity.name}?" />
+							<h:outputLabel value="Gostaria realmente de excluir o usuário #{userController.entity.name}?" />
 							<br/>
-							<p:commandButton value="Excluir" actionListener="#{userBean.delete}" oncomplete="deleteDialog.hide()" update="table, messages" />
+							<p:commandButton value="Excluir" actionListener="#{userController.delete}" oncomplete="deleteDialog.hide()" update="table, messages" />
 							<p:commandButton value="Cancelar" onclick="deleteDialog.hide()" />
 						
 						</p:panel>
