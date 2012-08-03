@@ -10,10 +10,7 @@
 
 	<context:annotation-config />
 
-	<!-- Habilita o Uso de Anotacões -->
-	<context:component-scan base-package="br.com.processboss.core" />
-	<context:component-scan base-package="br.com.processboss.web" />
-	<context:component-scan base-package="br.com.processboss.service" />
+	<context:component-scan base-package="br.com.processboss" />
 	
 	<!-- Carregar arquivos de configuracao -->
 	<bean id="propertyConfigurer"
