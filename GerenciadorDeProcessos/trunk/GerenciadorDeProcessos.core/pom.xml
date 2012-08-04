@@ -174,13 +174,11 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>			
 			<version>3.0.1</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>cupertino</artifactId>
 			<version>1.0.1</version>
-			<scope>runtime</scope>
 		</dependency>		
 		
 		<!-- File Upload -->
