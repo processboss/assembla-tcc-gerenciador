@@ -12,17 +12,14 @@
 		<li>
 			<a href="/processboss/user/index.jsf"><span>Usuários</span></a>
 		</li>
-		
+		<li>
+			<a href="/processboss/process/index.jsf"><span>Processos</span></a>
+		</li>
+
 		<!-- Admin -->
 		<c:if test="#{loginBean.usuario.tipoUsuario == 0}"> 	
 			<li>
-				<a href="../user/index.jsf"><span>Usuários</span></a>
-			</li>
-			<li>
 				<a href="../user/index.jsf"><span>Agendamentos</span></a>
-			</li>
-			<li>
-				<a href="../user/index.jsf"><span>Processos</span></a>
 			</li>
 			<li>
 				<a href="../user/index.jsf"><span>Tarefas</span></a>

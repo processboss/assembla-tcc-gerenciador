@@ -9,6 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="user/index.jsf">Usuario</a>
+	<a href="index.jsf">Usuario</a>
 </body>
 </html>
