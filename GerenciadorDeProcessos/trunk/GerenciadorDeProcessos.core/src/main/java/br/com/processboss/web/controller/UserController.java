@@ -7,7 +7,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import br.com.processboss.core.model.User;
@@ -63,10 +62,10 @@ public class UserController extends _Bean implements Serializable {
 	public String saveOrUpdate(){
 		if(entity != null){
 			userService.saveOrUpdate(entity);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario inserido/alterado com suscesso", ""));
+			addMessage( new FacesMessage(FacesMessage.FACES_MESSAGES, "Usuario inserido/alterado com suscesso"));
 			return "index";
 		}else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Houve um erro ao tentar inserir/alterar um usuário", ""));
+			addMessage( new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel salvar/alterar", null));
 			return null;
 		}
 	}
@@ -78,10 +77,10 @@ public class UserController extends _Bean implements Serializable {
 	public String delete(){
 		if(entity != null){
 			userService.delete(entity);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario excluído com suscesso", ""));
+			addMessage(new FacesMessage(FacesMessage.FACES_MESSAGES, "Usuario removido com sucesso"));
 			return "index";
 		}else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Houve um erro ao tentar excluir um usuário", ""));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir", null));
 			return null;
 		}
 	}
