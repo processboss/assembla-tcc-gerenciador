@@ -22,25 +22,34 @@ public class UserController extends _Bean implements Serializable {
 	private IUserService userService;
 	
 	private User entity;
-	private List<User> entities;
-	
+
+	/*
+	 * CONSTRUTORES 
+	 */
 	public UserController() {}
 	
+	/*
+	 * GETS E SETS
+	 */
 	public User getEntity() {
 		return entity;
 	}
+	
 	public void setEntity(User entity) {
 		this.entity = entity;
 	}
 	
-	public List<User> getEntities() {
-		return entities;
+	public IUserService getUserService() {
+		return userService;
 	}
 
-	public void setEntities(List<User> entities) {
-		this.entities = entities;
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
 	}
-
+	
+	/*
+	 * DESENVOLVIMENTO
+	 */
 	public List<User> getAllEntities(){
 		return userService.listAll();
 	}
@@ -62,10 +71,10 @@ public class UserController extends _Bean implements Serializable {
 	public String saveOrUpdate(){
 		if(entity != null){
 			userService.saveOrUpdate(entity);
-			addMessage( new FacesMessage(FacesMessage.FACES_MESSAGES, "Usuario inserido/alterado com suscesso"));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario inserido/alterado com suscesso", ""));
 			return "index";
 		}else{
-			addMessage( new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel salvar/alterar", null));
+			addMessage( new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel salvar/alterar", ""));
 			return null;
 		}
 	}
@@ -77,20 +86,12 @@ public class UserController extends _Bean implements Serializable {
 	public String delete(){
 		if(entity != null){
 			userService.delete(entity);
-			addMessage(new FacesMessage(FacesMessage.FACES_MESSAGES, "Usuario removido com sucesso"));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario removido com sucesso", ""));
 			return "index";
 		}else{
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir", null));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir", ""));
 			return null;
 		}
-	}
-
-	public IUserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
 	}
 
 }

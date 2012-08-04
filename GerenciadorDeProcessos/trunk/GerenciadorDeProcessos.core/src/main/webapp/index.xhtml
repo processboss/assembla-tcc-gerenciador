@@ -1,24 +1,44 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" 
-	template="../template/_template.xhtml">
+	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="content">
-		<div id="content">
-			<div class="first">
-				<h1>Gerenciador de Processos</h1>
-			</div>
+	<f:view contentType="text/html">
+		<p:growl id="messages" showDetail="true" sticky="true" />
+		<h:head>			
+			<link rel="stylesheet" type="text/css" href="css/estilo.css" />
+			<title>ProcessBoss</title>
+		</h:head>
+	
+		<h:body>					
 			
-			<div class="main">
-				
-			</div>
-				
-			<div class="last"></div>
+			<div id="container">
+				<div id="top" />
 			
-		</div>
-		
-	</ui:define>
-</ui:composition>
+				<div id="leftCol">
+					<ui:include src="template/_menu.xhtml" />
+				</div>	
+				<div id="rightCol">
+					<ui:include src="template/_header.xhtml" />
+
+					<div id="content">
+						<div class="first">
+							<h1>Gerenciador de processos</h1>
+						</div>
+						<div class="main">
+							<h2>Página em construção!!</h2>
+						</div>
+						<div class="last"></div>
+					
+					</div>
+					
+				</div>		
+				<div id="footer" />
+			</div>
+			<p align="center">Copyright &copy; by Felipe Ribeiro e Marco Paulo Ollivier. </p>	
+		</h:body>
+	</f:view>
+</html>
