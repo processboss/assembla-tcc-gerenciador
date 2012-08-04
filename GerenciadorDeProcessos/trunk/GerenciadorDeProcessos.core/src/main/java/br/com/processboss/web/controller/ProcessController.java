@@ -10,7 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FileUploadEvent;
@@ -88,7 +87,7 @@ public class ProcessController extends _Bean implements Serializable {
 	public String saveOrUpdate(){
 
 		if(file == null){
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível inserir/alterar o processo, pois é preciso anexar um arquivo.", ""));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo, pois e preciso anexar um arquivo.", ""));
 			return null;
 		}
 		
@@ -105,11 +104,11 @@ public class ProcessController extends _Bean implements Serializable {
 				fos.close();
 				
 			} catch (FileNotFoundException e) {
-				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível inserir/alterar o processo. O arquivo anexado está corrompido.", ""));
+				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
 				e.printStackTrace();
 				return null;
 			} catch (IOException e) {
-				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível inserir/alterar o processo. O arquivo anexado está corrompido.", ""));
+				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
 				e.printStackTrace();
 				return null;
 			}
@@ -130,7 +129,7 @@ public class ProcessController extends _Bean implements Serializable {
 	public String delete(){
 		if(entity != null){
 			processService.delete(entity);
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Processo excluído com suscesso.", ""));
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Processo excluido com suscesso.", ""));
 			return "index";
 		}else{
 			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Houve um erro ao tentar excluir um processo.", ""));
