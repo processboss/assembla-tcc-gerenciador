@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Classe que representa um agendamento
  */
@@ -136,6 +138,16 @@ public class Schedule implements Serializable {
 	 * @return
 	 */
 	public String buildExpression(){
-		return null;
+		StringBuilder expr = new StringBuilder();
+		
+		expr.append(StringUtils.defaultIfEmpty(seconds, "*")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(minutes, "*")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(hours, "*")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(dayOfMonth, "*")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(month, "*")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(dayOfWeek, "?")).append(" ");
+		expr.append(StringUtils.defaultIfEmpty(year, "*")).append(" ");
+		
+		return expr.toString();
 	}
 }

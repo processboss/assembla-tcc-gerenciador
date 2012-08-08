@@ -1,7 +1,5 @@
 package br.com.processboss.core.service.impl;
 
-import java.util.UUID;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

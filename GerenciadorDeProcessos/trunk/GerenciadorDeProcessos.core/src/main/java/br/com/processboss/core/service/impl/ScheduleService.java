@@ -2,6 +2,7 @@ package br.com.processboss.core.service.impl;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.processboss.core.model.Schedule;
@@ -9,7 +10,7 @@ import br.com.processboss.core.persistence.dao.IScheduleDAO;
 import br.com.processboss.core.service.IScheduleService;
 
 
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED)
 public class ScheduleService implements IScheduleService {
 
 	private IScheduleDAO scheduleDAO;

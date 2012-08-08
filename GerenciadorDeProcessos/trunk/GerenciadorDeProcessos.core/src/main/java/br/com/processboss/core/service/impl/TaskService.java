@@ -2,6 +2,7 @@ package br.com.processboss.core.service.impl;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.processboss.core.model.Task;
@@ -9,7 +10,7 @@ import br.com.processboss.core.persistence.dao.ITaskDAO;
 import br.com.processboss.core.service.ITaskService;
 
 
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED)
 public class TaskService implements ITaskService {
 
 	private ITaskDAO taskDAO;
