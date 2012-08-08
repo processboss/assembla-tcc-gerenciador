@@ -2,6 +2,7 @@ package br.com.processboss.core.service.impl;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.processboss.core.model.Process;
@@ -9,7 +10,7 @@ import br.com.processboss.core.persistence.dao.IProcessDAO;
 import br.com.processboss.core.service.IProcessService;
 
 
-@Transactional
+@Transactional(propagation=Propagation.REQUIRED)
 public class ProcessService implements IProcessService {
 
 	private IProcessDAO processDAO;
