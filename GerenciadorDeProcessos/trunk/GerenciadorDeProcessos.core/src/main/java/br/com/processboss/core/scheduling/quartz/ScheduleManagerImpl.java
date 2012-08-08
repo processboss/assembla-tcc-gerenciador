@@ -25,14 +25,18 @@ import br.com.processboss.core.exception.ProcessBossException;
 import br.com.processboss.core.model.Schedule;
 import br.com.processboss.core.model.Task;
 import br.com.processboss.core.scheduling.quartz.job.TaskJob;
+import br.com.processboss.core.service.IExecutorService;
 import br.com.processboss.core.service.IScheduleService;
+import br.com.processboss.core.service.ITaskService;
 
 public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 
 	private static final Log LOG = LogFactory.getLog(ScheduleManagerImpl.class);
 	
 	private IScheduleService scheduleService;
-
+	private ITaskService taskService;
+	private IExecutorService executorService;
+	
 	protected Scheduler sched;
 	
 	protected Map<Long, CronTrigger> triggers = new HashMap<Long, CronTrigger>();
@@ -102,12 +106,14 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 		}
 	}
 	
-	public static JobDetail createJobDetail(Schedule schedule) throws ProcessBossException{
+	public JobDetail createJobDetail(Schedule schedule) throws ProcessBossException{
 		try {
 			Task task = schedule.getTask();
 			
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put("task", task);
+			jobDataMap.put("taskService", taskService);
+			jobDataMap.put("executorService", getExecutorService());
 			
 			JobDetail job = newJob(TaskJob.class)
 				    .withIdentity(String.valueOf(task.getId()), Scheduler.DEFAULT_GROUP)
@@ -124,7 +130,7 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 		}
 	}
 	
-	public static CronTrigger createTrigger(Schedule schedule, JobDetail jobDetail) throws ProcessBossException{
+	public CronTrigger createTrigger(Schedule schedule, JobDetail jobDetail) throws ProcessBossException{
 		try {
 			Task task = schedule.getTask();
 			
@@ -151,6 +157,22 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 
 	public void setScheduleService(IScheduleService scheduleService) {
 		this.scheduleService = scheduleService;
+	}
+
+	public ITaskService getTaskService() {
+		return taskService;
+	}
+
+	public void setTaskService(ITaskService taskService) {
+		this.taskService = taskService;
+	}
+
+	public IExecutorService getExecutorService() {
+		return executorService;
+	}
+
+	public void setExecutorService(IExecutorService executorService) {
+		this.executorService = executorService;
 	}
 
 }

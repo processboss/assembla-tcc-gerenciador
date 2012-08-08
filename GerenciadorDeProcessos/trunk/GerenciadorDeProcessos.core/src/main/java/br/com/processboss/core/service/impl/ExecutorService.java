@@ -23,8 +23,8 @@ public class ExecutorService implements IExecutorService {
 				Thread.sleep(1000);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Ocorreu um erro ao executar o processo " + process.getName());
+			throw new ProcessExecutionException("Ocorreu um erro ao executar o processo " + process.getName(), e);
 		}
 	}
 
