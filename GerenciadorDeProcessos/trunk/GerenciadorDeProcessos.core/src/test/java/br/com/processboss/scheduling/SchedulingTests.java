@@ -26,7 +26,7 @@ public class SchedulingTests {
 	
 	@Test
 	public void testInitialize() throws Exception{
-		Thread.sleep(30L * 1000L);
+		Thread.sleep(15L * 1000L);
 	}
 	
 	@Test

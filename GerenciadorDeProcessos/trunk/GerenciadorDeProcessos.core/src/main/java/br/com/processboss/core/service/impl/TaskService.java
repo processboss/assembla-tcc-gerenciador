@@ -45,6 +45,11 @@ public class TaskService implements ITaskService {
 		taskDAO.delete(entity);
 	}
 
+	@Override
+	public Task loadProcesses(Task task) {
+		return taskDAO.loadProcesses(task);
+	}
+
 	public ITaskDAO getTaskDAO() {
 		return taskDAO;
 	}
@@ -52,6 +57,7 @@ public class TaskService implements ITaskService {
 	public void setTaskDAO(ITaskDAO taskDAO) {
 		this.taskDAO = taskDAO;
 	}
+
 
 
 }
