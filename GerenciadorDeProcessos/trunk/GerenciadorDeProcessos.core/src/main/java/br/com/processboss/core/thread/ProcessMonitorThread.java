@@ -7,9 +7,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hyperic.sigar.ProcCpu;
 import org.hyperic.sigar.ProcMem;
 import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.SigarException;
 
+import br.com.processboss.core.model.ExecutionStatus;
 import br.com.processboss.core.model.ProcessExecutionDetail;
+import br.com.processboss.core.model.ProcessInTask;
+import br.com.processboss.core.service.IExecutorService;
 
 public class ProcessMonitorThread implements Runnable {
 
@@ -20,15 +22,26 @@ public class ProcessMonitorThread implements Runnable {
 	boolean canContinue;
 	ProcessExecutionDetail detail;
 	
-	public ProcessMonitorThread(int pid) {
-		this.pid = pid;
+	private IExecutorService executorService;
+	
+	public ProcessMonitorThread(ProcessInTask processInTask, IExecutorService executorService) {
+		this.executorService = executorService;
+
 		runner = new Thread(this, "monitor_"+pid);
 		detail = new ProcessExecutionDetail();
+		detail.setProcessInTask(processInTask);
 	}
 	
-	public void start(){
+	public void start(int pid){
+		this.pid = pid;
+		
 		canContinue = true;
+		
 		detail.setStart(new Date());
+		detail.setStatus(ExecutionStatus.IN_PROGRESS);
+		
+		executorService.saveOrUpdate(detail);
+		
 		runner.start();
 	}
 	
@@ -36,8 +49,14 @@ public class ProcessMonitorThread implements Runnable {
 		canContinue = false;
 		detail.setEnd(new Date());
 		
-		System.out.println(detail.toString());
-		// Persistir
+		/**
+		 * Se nao falhou, atualizo o status para DONE
+		 */
+		if(!ExecutionStatus.FAILED.equals(detail.getStatus())){
+			detail.setStatus(ExecutionStatus.DONE);
+		}
+		
+		executorService.saveOrUpdate(detail);
 	}
 	
 	@Override
@@ -60,12 +79,13 @@ public class ProcessMonitorThread implements Runnable {
 				Thread.sleep(1000);
 			}
 			
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("Ocorreu um erro ao monitorar o processo " + pid);
-		} catch (SigarException e) {
-			e.printStackTrace();
-			LOG.error("Ocorreu um erro ao monitorar o processo " + pid);
+			
+			detail.setStatus(ExecutionStatus.FAILED);
+			
+			executorService.saveOrUpdate(detail);
 		}
 		
 	}

@@ -20,5 +20,5 @@
 	<bean id="scheduleDAO" class="br.com.processboss.core.persistence.dao.impl.ScheduleDAO" parent="baseDAO" />
 	<bean id="taskDAO" class="br.com.processboss.core.persistence.dao.impl.TaskDAO" parent="baseDAO" />
 	<bean id="userDAO" class="br.com.processboss.core.persistence.dao.impl.UserDAO" parent="baseDAO" />
-	
+	<bean id="processExecutionDetailDAO" class="br.com.processboss.core.persistence.dao.impl.ProcessExecutionDetailDAO" parent="baseDAO" />
 </beans>

@@ -8,19 +8,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import br.com.processboss.core.model.Process;
+import br.com.processboss.core.model.ProcessInTask;
+import br.com.processboss.core.service.IExecutorService;
 
 public class ProcessExecutorThread implements Runnable {
 
 	private static final Log LOG = LogFactory.getLog(ProcessExecutorThread.class);
 	
 	Thread runner;
+	ProcessMonitorThread monitor;
+	
 	Process process;
 	String name;
 	
-	public ProcessExecutorThread(String name, br.com.processboss.core.model.Process process) {
-		this.process = process;
+	public ProcessExecutorThread(String name, ProcessInTask processInTask, IExecutorService executorService) {
+		this.process = processInTask.getProcess();
 		this.name = name;
 		runner = new Thread(this, name);
+		monitor = new ProcessMonitorThread(processInTask, executorService);
 	}
 	
 	public void start(){
@@ -42,8 +47,7 @@ public class ProcessExecutorThread implements Runnable {
 			
 			int pid = getPID(p);
 
-			ProcessMonitorThread monitor = new ProcessMonitorThread(pid);
-			monitor.start();
+			monitor.start(pid);
 			
 			p.waitFor();
 			

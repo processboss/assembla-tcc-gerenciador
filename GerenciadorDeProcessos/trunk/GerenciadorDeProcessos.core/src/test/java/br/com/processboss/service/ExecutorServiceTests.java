@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import br.com.processboss.core.exception.ProcessExecutionException;
 import br.com.processboss.core.model.Process;
+import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.service.IExecutorService;
 import br.com.processboss.core.service.IProcessService;
 
@@ -43,8 +44,12 @@ public class ExecutorServiceTests {
 
 		Process process = processService.findById(Long.valueOf(7));
 		
+		ProcessInTask processInTask = new ProcessInTask();
+		processInTask.setId(Long.valueOf(1));
+		processInTask.setProcess(process);
+		
 		try {
-			executorService.executeProcess(process);
+			executorService.executeProcess(processInTask);
 		} catch (ProcessExecutionException e) {
 			Assert.isNull(e);
 		}
