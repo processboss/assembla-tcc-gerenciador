@@ -43,7 +43,7 @@ public class TaskJob extends QuartzJobBean {
 
 			for (ProcessInTask processInTask : processes) {
 			
-				executorService.executeProcess(processInTask.getProcess());
+				executorService.executeProcess(processInTask);
 			
 			}
 
