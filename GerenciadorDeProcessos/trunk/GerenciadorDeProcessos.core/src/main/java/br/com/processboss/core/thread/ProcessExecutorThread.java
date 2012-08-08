@@ -35,13 +35,12 @@ public class ProcessExecutorThread implements Runnable {
 	public void run() {
 		
 		LOG.debug("Iniciando a execucao do processo: " + process.getName());
-		LOG.debug("Path: " + process.getPath());
 		
 		try {
 			ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c","echo $$ && " +process.getPath());
 			java.lang.Process p = builder.start();
 			
-			int pid = 1773;//getPID(p);
+			int pid = getPID(p);
 
 			ProcessMonitorThread monitor = new ProcessMonitorThread(pid);
 			monitor.start();
