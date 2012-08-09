@@ -6,23 +6,25 @@
 	xmlns:p="http://primefaces.org/ui">
 			
 	<ul class="nav">
+		
 		<li>
 			<a href="/processboss/index.jsf"><span>Home</span></a>
 		</li>
+
 		<li>
 			<a href="/processboss/user/index.jsf"><span>Usuários</span></a>
 		</li>
 		<li>
 			<a href="/processboss/process/index.jsf"><span>Processos</span></a>
 		</li>
+		<li>
+			<a href="/processboss/task/index.jsf"><span>Tarefas</span></a>
+		</li>
 
 		<!-- Admin -->
 		<c:if test="#{loginBean.usuario.tipoUsuario == 0}"> 	
 			<li>
 				<a href="../user/index.jsf"><span>Agendamentos</span></a>
-			</li>
-			<li>
-				<a href="../user/index.jsf"><span>Tarefas</span></a>
 			</li>
 		</c:if>
 		

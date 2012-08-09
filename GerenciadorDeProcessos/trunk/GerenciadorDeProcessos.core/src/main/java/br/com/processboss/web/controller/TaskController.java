@@ -1,5 +1,6 @@
 package br.com.processboss.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -8,9 +9,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.model.DualListModel;
+
+import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.model.Task;
+import br.com.processboss.core.service.IProcessInTaskService;
 import br.com.processboss.core.service.IProcessService;
 import br.com.processboss.core.service.ITaskService;
+import br.com.processboss.core.model.Process;
 
 @ManagedBean(name="taskController")
 @SessionScoped
@@ -20,15 +26,21 @@ public class TaskController extends _Bean {
 
 	@ManagedProperty(name="taskService", value="#{taskService}")
 	private ITaskService taskService;
+	
 	@ManagedProperty(name="processService", value="#{processService}")
 	private IProcessService processService;
 	
+	@ManagedProperty(name="processInTaskService", value="#{processInTaskService}")
+	private IProcessInTaskService processInTaskService;
+	
 	private Task entity;
+	private DualListModel<Process> processes = null;
 	
 	/*
 	 * CONSTRUTORES
 	 */
-	public TaskController() {}
+	public TaskController() {
+	}
 
 	
 	/*
@@ -58,6 +70,22 @@ public class TaskController extends _Bean {
 		this.entity = entity;
 	}
 	
+	public DualListModel<Process> getProcesses() {
+		return processes;
+	}
+	
+	public void setProcesses(DualListModel<Process> processes) {
+		this.processes = processes;
+	}
+	
+	public IProcessInTaskService getProcessInTaskService() {
+		return processInTaskService;
+	}
+	
+	public void setProcessInTaskService(IProcessInTaskService processInTaskService) {
+		this.processInTaskService = processInTaskService;
+	}
+	
 	/*
 	 * DESENVOLVIMENTO
 	 */
@@ -66,11 +94,13 @@ public class TaskController extends _Bean {
 	}
 	
 	public String updateEntity(){
+		loadProcess();
 		entity = (Task)getJsfParam("entity");
 		return "updateTask";
 	}
 	
 	public String newEntity(){
+		loadProcess();
 		entity = new Task();
 		return "newTask";
 	}
@@ -81,6 +111,17 @@ public class TaskController extends _Bean {
 	
 	public String saveOrUpdate(){
 		if(entity != null){
+			
+			if (processes.getTarget() != null){
+				List<ProcessInTask> processInTasks = new ArrayList<ProcessInTask>();
+				for (Process process : processes.getTarget()) {
+					ProcessInTask pit = new ProcessInTask();
+					pit.setProcess(process);
+					processInTasks.add(pit);
+				}
+				entity.setProcesses(processInTasks);
+			}
+			
 			taskService.saveOrUpdate(entity);
 			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Tarefa inserido/alterado com suscesso", ""));
 			return "index";
@@ -103,6 +144,14 @@ public class TaskController extends _Bean {
 			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir a tarefa", ""));
 			return null;
 		}
+	}
+	
+	private void loadProcess(){
+		List<Process> source = processService.listAll();
+		List<Process> target = new ArrayList<Process>();
+		
+		processes = new DualListModel<Process>(source, target);
+		
 	}
 	
 }
