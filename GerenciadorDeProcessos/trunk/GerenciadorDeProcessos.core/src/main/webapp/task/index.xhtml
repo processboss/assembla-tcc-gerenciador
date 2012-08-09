@@ -26,6 +26,12 @@
 								</f:facet>
 								<h:outputText value="#{entity.name}" />
 							</p:column>						
+
+							<p:column style="width:100px;" >
+								<p:commandLink value="Agendar" ajax="false" action="#{taskController.scheduleEntity}" >
+									<f:param name="entity" value="#{entity}" />
+								</p:commandLink>
+							</p:column>
 	
 							<p:column style="width:60px;" >
 								<p:commandLink value="Alterar" ajax="false" action="#{taskController.updateEntity}" >
