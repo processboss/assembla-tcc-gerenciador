@@ -2,6 +2,7 @@ package br.com.processboss.core.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class Schedule implements Serializable {
 	private String dayOfWeek;
 	private String year;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE,  targetEntity=Task.class)
 	private Task task;
 	
 	public Schedule() {}

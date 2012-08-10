@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.processboss.core.model.Schedule;
+import br.com.processboss.core.model.Task;
 import br.com.processboss.core.persistence.dao.IScheduleDAO;
 import br.com.processboss.core.service.IScheduleService;
 
@@ -43,6 +44,11 @@ public class ScheduleService implements IScheduleService {
 	@Override
 	public void delete(Schedule entity) {
 		scheduleDAO.delete(entity);
+	}
+	
+	@Override
+	public List<Schedule> listByTask(Task task) {
+		return scheduleDAO.listByTask(task);
 	}
 
 	public IScheduleDAO getScheduleDAO() {

@@ -11,7 +11,7 @@
 
 
 	<bean id="scheduleManager" class="br.com.processboss.core.scheduling.quartz.ScheduleManagerImpl" >
-		<constructor-arg index="0" value="/quartz.properties" />
+		<constructor-arg index="0" value="src/test/resources/quartz.properties" />
 	</bean>
 	
 </beans>

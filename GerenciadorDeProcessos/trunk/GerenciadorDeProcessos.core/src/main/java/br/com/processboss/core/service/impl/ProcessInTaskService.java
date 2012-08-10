@@ -53,5 +53,10 @@ public class ProcessInTaskService implements IProcessInTaskService {
 		this.processInTaskDAO = processInTaskDAO;
 	}
 
+	@Override
+	public ProcessInTask loadExecutionDetails(ProcessInTask processInTask) {
+		return processInTaskDAO.loadExecutionDetails(processInTask);
+	}
+
 
 }

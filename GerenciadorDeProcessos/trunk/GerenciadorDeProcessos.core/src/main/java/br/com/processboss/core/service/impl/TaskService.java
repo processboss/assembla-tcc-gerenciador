@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.model.Task;
+import br.com.processboss.core.persistence.dao.IProcessExecutionDetailDAO;
+import br.com.processboss.core.persistence.dao.IProcessInTaskDAO;
+import br.com.processboss.core.persistence.dao.IScheduleDAO;
 import br.com.processboss.core.persistence.dao.ITaskDAO;
 import br.com.processboss.core.service.ITaskService;
 
@@ -14,6 +18,9 @@ import br.com.processboss.core.service.ITaskService;
 public class TaskService implements ITaskService {
 
 	private ITaskDAO taskDAO;
+	private IScheduleDAO scheduleDAO;
+	private IProcessExecutionDetailDAO processExecutionDetailDAO;
+	private IProcessInTaskDAO processInTaskDAO;
 
 	@Override
 	public Task findById(Long id) {
@@ -41,8 +48,19 @@ public class TaskService implements ITaskService {
 	}
 
 	@Override
-	public void delete(Task entity) {
-		taskDAO.delete(entity);
+	public void delete(Task task) {
+		
+		task = taskDAO.loadProcesses(task);
+		for (ProcessInTask processInTask : task.getProcesses()) {
+			processInTaskDAO.loadExecutionDetails(processInTask);
+			processInTask.getExecutionDetails().clear();
+			processInTaskDAO.saveOrUpdate(processInTask);
+		}
+		task.getProcesses().clear();
+		taskDAO.saveOrUpdate(task);
+		
+		scheduleDAO.deleteByTask(task);
+		taskDAO.delete(task);
 	}
 
 	@Override
@@ -58,6 +76,29 @@ public class TaskService implements ITaskService {
 		this.taskDAO = taskDAO;
 	}
 
+	public IScheduleDAO getScheduleDAO() {
+		return scheduleDAO;
+	}
 
+	public void setScheduleDAO(IScheduleDAO scheduleDAO) {
+		this.scheduleDAO = scheduleDAO;
+	}
+
+	public IProcessExecutionDetailDAO getProcessExecutionDetailDAO() {
+		return processExecutionDetailDAO;
+	}
+
+	public void setProcessExecutionDetailDAO(
+			IProcessExecutionDetailDAO processExecutionDetailDAO) {
+		this.processExecutionDetailDAO = processExecutionDetailDAO;
+	}
+
+	public IProcessInTaskDAO getProcessInTaskDAO() {
+		return processInTaskDAO;
+	}
+
+	public void setProcessInTaskDAO(IProcessInTaskDAO processInTaskDAO) {
+		this.processInTaskDAO = processInTaskDAO;
+	}
 
 }

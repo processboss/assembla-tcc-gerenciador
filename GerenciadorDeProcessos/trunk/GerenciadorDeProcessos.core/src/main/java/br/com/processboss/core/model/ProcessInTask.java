@@ -1,6 +1,8 @@
 package br.com.processboss.core.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,9 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * Classe que representa a relacao entre um processo
@@ -30,8 +34,13 @@ public class ProcessInTask {
 	@JoinTable(name="processintask_dependencies")
 	private Set<ProcessInTask> dependencies;
 	
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name="processintask_id")
+	private List<ProcessExecutionDetail> executionDetails;
+	
 	public ProcessInTask() {
 		dependencies = new HashSet<ProcessInTask>();
+		executionDetails = new ArrayList<ProcessExecutionDetail>();
 	}
 
 	public Long getId() {
@@ -60,5 +69,13 @@ public class ProcessInTask {
 	
 	public void addDependency(ProcessInTask dependency){
 		this.dependencies.add(dependency);
+	}
+
+	public List<ProcessExecutionDetail> getExecutionDetails() {
+		return executionDetails;
+	}
+
+	public void setExecutionDetails(List<ProcessExecutionDetail> executionDetails) {
+		this.executionDetails = executionDetails;
 	}
 }
