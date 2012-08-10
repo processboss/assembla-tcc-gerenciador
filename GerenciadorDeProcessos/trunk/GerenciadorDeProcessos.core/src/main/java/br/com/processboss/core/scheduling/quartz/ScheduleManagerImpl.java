@@ -106,6 +106,59 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 		}
 	}
 	
+	@Override
+	public void removeTrigger(Schedule schedule) throws ProcessBossException {
+		
+		try {
+			
+			CronTrigger trigger = triggers.get(schedule.getId());
+			
+			if(trigger != null){
+				
+				sched.unscheduleJob(trigger.getKey());
+
+				triggers.remove(schedule.getId());
+				
+				sched.start();
+
+			}
+			
+		} catch (SchedulerException e) {
+			LOG.info("Ocorreu um erro ao iniciar a trigger.", e);
+			throw new ProcessBossException(e);
+		}
+	}
+
+	@Override
+	public void removeTriggers(List<Schedule> schedules)
+			throws ProcessBossException {
+		
+		try {
+			
+			CronTrigger trigger;
+			
+			for (Schedule schedule : schedules) {
+				
+				trigger	= triggers.get(schedule.getId());
+				
+				if(trigger != null){
+					
+					sched.unscheduleJob(trigger.getKey());
+
+					triggers.remove(schedule.getId());
+					
+				}
+			}
+
+
+			sched.start();
+			
+		} catch (SchedulerException e) {
+			LOG.info("Ocorreu um erro ao iniciar a triggers.", e);
+			throw new ProcessBossException(e);
+		}
+	}
+	
 	public JobDetail createJobDetail(Schedule schedule) throws ProcessBossException{
 		try {
 			Task task = schedule.getTask();

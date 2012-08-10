@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 import br.com.processboss.core.model.Process;
 import br.com.processboss.core.model.ProcessInTask;
+import br.com.processboss.core.scheduling.executor.TaskExecutationManager;
 import br.com.processboss.core.service.IExecutorService;
 
 public class ProcessExecutorThread implements Runnable {
@@ -18,12 +19,17 @@ public class ProcessExecutorThread implements Runnable {
 	Thread runner;
 	ProcessMonitorThread monitor;
 	
+	ProcessInTask processInTask;
 	Process process;
 	String name;
 	
-	public ProcessExecutorThread(String name, ProcessInTask processInTask, IExecutorService executorService) {
+	TaskExecutationManager manager;
+	
+	public ProcessExecutorThread(String name, ProcessInTask processInTask, IExecutorService executorService, TaskExecutationManager manager) {
+		this.processInTask = processInTask;
 		this.process = processInTask.getProcess();
 		this.name = name;
+		this.manager = manager;
 		runner = new Thread(this, name);
 		monitor = new ProcessMonitorThread(processInTask, executorService);
 	}
@@ -52,6 +58,10 @@ public class ProcessExecutorThread implements Runnable {
 			p.waitFor();
 			
 			monitor.stop();
+			
+			if(manager != null){
+				manager.processTerminated(processInTask);
+			}
 			
 			LOG.debug("Execucao do processo: " + process.getName() + " finalizada!");
 

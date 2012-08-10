@@ -5,4 +5,6 @@ import br.com.processboss.core.model.ProcessInTask;
 
 public interface IProcessInTaskService extends IService<ProcessInTask, Long> {
 
+	ProcessInTask loadExecutionDetails(ProcessInTask processInTask);
+	
 }

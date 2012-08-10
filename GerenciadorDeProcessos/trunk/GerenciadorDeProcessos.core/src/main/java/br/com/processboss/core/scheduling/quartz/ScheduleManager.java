@@ -9,5 +9,6 @@ public interface ScheduleManager {
 
 	void addTrigger(Schedule schedule) throws ProcessBossException;
 	void addTriggers(List<Schedule> schedules) throws ProcessBossException;
-	
+	void removeTrigger(Schedule schedule) throws ProcessBossException;
+	void removeTriggers(List<Schedule> schedules) throws ProcessBossException;
 }
