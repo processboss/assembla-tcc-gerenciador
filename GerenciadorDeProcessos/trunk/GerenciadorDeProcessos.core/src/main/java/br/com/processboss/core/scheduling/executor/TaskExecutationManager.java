@@ -4,6 +4,6 @@ import br.com.processboss.core.model.ProcessInTask;
 
 public interface TaskExecutationManager {
 
-	void processTerminated(ProcessInTask processInTask);
+	void processTerminated(ProcessInTask processInTask, String processExecutionKey);
 	
 }

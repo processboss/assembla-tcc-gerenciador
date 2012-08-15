@@ -1,11 +1,17 @@
 package br.com.processboss.core.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.processboss.core.bean.Resources;
 import br.com.processboss.core.bean.ServerState;
+import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.service.IServerStateService;
 
 /**
@@ -16,6 +22,7 @@ public class ServerStateService implements IServerStateService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ServerStateService.class); 
 	
+	private static final Map<String, ProcessInTask> IN_PROGRESS = new HashMap<String, ProcessInTask>();
 	/**
 	 * Le as informacoes de hardware do servidor
 	 * 
@@ -32,11 +39,13 @@ public class ServerStateService implements IServerStateService {
 			 * Informacoes da CPU
 			 */
 			serverState.setCpuInfo(sigar.getCpuInfoList());
+			serverState.setCpuPerc(sigar.getCpuPerc());
 			
 			/**
 			 * Informacoes da Memoria
 			 */
 			serverState.setMemory(sigar.getMem());
+			
 		
 		} catch (SigarException e) {
 			LOG.error("Ocorreu um erro ao obter as informacoes do servidor.");
@@ -44,6 +53,50 @@ public class ServerStateService implements IServerStateService {
 		}
 		
 		return serverState;
+	}
+
+	@Override
+	public boolean canExecute(ProcessInTask processInTask) {
+		ServerState serverState = read();
+		long serverMemory = serverState.getMemory().getFree();
+		
+		Resources alocatedResources = getAlocatedResources();
+		
+		Resources requiredResources = new Resources(processInTask.getExecutionDetails());
+		
+		Double memoryTotal = alocatedResources.getMemory() + requiredResources.getMemory();
+		Double cpuTotal = alocatedResources.getCpu() + requiredResources.getCpu();
+		
+		if(memoryTotal > serverMemory || cpuTotal > Resources.MAX_CPU){
+			return false; 
+		}
+		
+		return true;
+	}
+	
+	protected Resources getAlocatedResources(){
+		double memory = 0.0D;
+		double cpu = 0.0D;
+		for (ProcessInTask process : IN_PROGRESS.values()) {
+			Resources resources = new Resources(process.getExecutionDetails());
+			memory += resources.getMemory();
+			cpu += resources.getCpu();
+		}
+		return new Resources(memory, cpu);
+	}
+
+	@Override
+	public String addProcessExecution(ProcessInTask processInTask) {
+		String key = processInTask.getId() + "_" + new Date().getTime();
+		
+		IN_PROGRESS.put(key, processInTask);
+		
+		return key;
+	}
+
+	@Override
+	public void removeProcessExecution(String processExecutionKey) {
+		IN_PROGRESS.remove(processExecutionKey);
 	}
 	
 }

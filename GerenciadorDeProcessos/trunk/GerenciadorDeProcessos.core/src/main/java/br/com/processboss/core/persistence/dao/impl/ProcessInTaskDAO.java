@@ -16,4 +16,23 @@ public class ProcessInTaskDAO extends GenericDAO<ProcessInTask, Long> implements
 		return processInTask;
 	}
 
+	@Override
+	public ProcessInTask loadDependencies(ProcessInTask processInTask) {
+		processInTask = findById(processInTask.getId());
+		if(processInTask != null){
+			Hibernate.initialize(processInTask.getDependencies());
+		}
+		return processInTask;
+	}
+
+	@Override
+	public ProcessInTask initialize(ProcessInTask processInTask) {
+		processInTask = findById(processInTask.getId());
+		if(processInTask != null){
+			Hibernate.initialize(processInTask.getExecutionDetails());
+			Hibernate.initialize(processInTask.getDependencies());
+		}
+		return processInTask;
+	}
+
 }

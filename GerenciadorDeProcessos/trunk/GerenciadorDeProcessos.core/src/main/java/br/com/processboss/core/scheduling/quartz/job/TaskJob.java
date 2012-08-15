@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
@@ -18,6 +19,7 @@ import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.model.Task;
 import br.com.processboss.core.scheduling.executor.TaskExecutationManager;
 import br.com.processboss.core.service.IExecutorService;
+import br.com.processboss.core.service.IServerStateService;
 import br.com.processboss.core.service.ITaskService;
 
 /**
@@ -30,6 +32,7 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 	private Task task;
 	private ITaskService taskService;
 	private IExecutorService executorService;
+	private IServerStateService serverStateService;
 	
 	private List<ProcessInTask> toExecute;
 	private Map<Long, ProcessInTask> executed = new HashMap<Long, ProcessInTask>();
@@ -43,10 +46,12 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 		/**
 		 * Busca os processos da tarefa
 		 */
-		taskService.loadProcesses(task);
+		task = taskService.loadProcesses(task);
 		List<ProcessInTask> processes = task.getProcesses();
 		
-		//TODO: Organizar a ordem de execucao dos processos
+		/**
+		 * Organiza a fila de execucao
+		 */
 		organizeProcess(processes);
 		
 		try {
@@ -58,15 +63,35 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 					
 					ProcessInTask processInTask = iterator.next();
 					
-					//TODO: VERIFICAR SE AS DEPENDENCIAS JAH FORAM EXECUTADAS
-					executorService.executeProcess(processInTask, this);
+					/**
+					 * Veririca se o processo pode ser executado
+					 */
+					if(!canExecuteNow(processInTask)){
+						continue;
+					}
 					
+					String processExecutionKey = serverStateService.addProcessExecution(processInTask);
+
+					/**
+					 * Dispara a execucao do processo
+					 */
+					executorService.executeProcess(processInTask, processExecutionKey, this);
+					
+					
+					/**
+					 * Remove o processo da fila
+					 */
 					iterator.remove();
 				}
 				
 				Thread.sleep(1000L);
 			}
 			
+			/**
+			 * Se existir algum processo que ainda nao foi executado,
+			 * seja por falta de recursos, ou por causa das dependencias,
+			 * aguarda um segundo e tenta executar novamente.
+			 */
 			while(processes.size() != executed.size()){
 				Thread.sleep(1000L);
 			}
@@ -81,16 +106,62 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 		LOG.debug("Tarefa " + task.getName() + " finalizada!");
 	}
 	
+	/**
+	 * Verifica se o processo pode ser executado no momento
+	 * 
+	 * @param processInTask
+	 * @return
+	 */
+	private boolean canExecuteNow(ProcessInTask processInTask) {
+		
+		/**
+		 * Verifica as dependencias
+		 */
+		Set<ProcessInTask> dependencies = processInTask.getDependencies();
+		if(dependencies != null && !dependencies.isEmpty()){
+			for (ProcessInTask dependency : dependencies) {
+				if(!executed.containsKey(dependency.getId())){
+					return false;
+				}
+			}
+		}
+		
+		/**
+		 * Verifica o estado atual da maquina
+		 */
+		if(!serverStateService.canExecute(processInTask)){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Calcula a ordem de execucao dos processos levando em consideracao 
+	 * o historico de execucoes de cada um dos processos.
+	 * 
+	 * @param processes
+	 * @param history
+	 */
 	protected void organizeProcess(List<ProcessInTask> processes){
+		
+		//TODO: Organizar a ordem de execucao dos processos
+		
 		toExecute = new ArrayList<ProcessInTask>();
 		for (ProcessInTask processInTask : processes) {
+			processInTask = executorService.prepareToExecution(processInTask);
 			toExecute.add(processInTask);
 		}
 	}
 	
+	/**
+	 * Informa que o processo terminou de ser executado
+	 * e o insere no conjunto de processos concluidos
+	 */
 	@Override
-	public void processTerminated(ProcessInTask processInTask) {
+	public void processTerminated(ProcessInTask processInTask, String processExecutionKey) {
 		executed.put(processInTask.getId(), processInTask);
+		serverStateService.removeProcessExecution(processExecutionKey);
 	}
 
 	public void setTask(Task task) {
@@ -103,6 +174,10 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 
 	public void setExecutorService(IExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	public void setServerStateService(IServerStateService serverStateService) {
+		this.serverStateService = serverStateService;
 	}
 
 	

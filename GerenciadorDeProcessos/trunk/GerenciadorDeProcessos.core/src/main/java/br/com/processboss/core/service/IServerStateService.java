@@ -1,6 +1,7 @@
 package br.com.processboss.core.service;
 
 import br.com.processboss.core.bean.ServerState;
+import br.com.processboss.core.model.ProcessInTask;
 
 public interface IServerStateService {
 
@@ -11,4 +12,9 @@ public interface IServerStateService {
 	 */
 	ServerState read();
 	
+	boolean canExecute(ProcessInTask processInTask);
+	
+	String addProcessExecution(ProcessInTask processInTask);
+	
+	void removeProcessExecution(String processExecutionKey);
 }

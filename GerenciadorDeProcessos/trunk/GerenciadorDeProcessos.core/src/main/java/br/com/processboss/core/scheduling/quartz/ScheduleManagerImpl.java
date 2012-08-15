@@ -27,6 +27,7 @@ import br.com.processboss.core.model.Task;
 import br.com.processboss.core.scheduling.quartz.job.TaskJob;
 import br.com.processboss.core.service.IExecutorService;
 import br.com.processboss.core.service.IScheduleService;
+import br.com.processboss.core.service.IServerStateService;
 import br.com.processboss.core.service.ITaskService;
 
 public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
@@ -36,6 +37,7 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 	private IScheduleService scheduleService;
 	private ITaskService taskService;
 	private IExecutorService executorService;
+	private IServerStateService serverStateService;
 	
 	protected Scheduler sched;
 	
@@ -166,7 +168,8 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put("task", task);
 			jobDataMap.put("taskService", taskService);
-			jobDataMap.put("executorService", getExecutorService());
+			jobDataMap.put("executorService", executorService);
+			jobDataMap.put("serverStateService", serverStateService);
 			
 			JobDetail job = newJob(TaskJob.class)
 				    .withIdentity(String.valueOf(task.getId()), Scheduler.DEFAULT_GROUP)
@@ -226,6 +229,14 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 
 	public void setExecutorService(IExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	public IServerStateService getServerStateService() {
+		return serverStateService;
+	}
+
+	public void setServerStateService(IServerStateService serverStateService) {
+		this.serverStateService = serverStateService;
 	}
 
 }

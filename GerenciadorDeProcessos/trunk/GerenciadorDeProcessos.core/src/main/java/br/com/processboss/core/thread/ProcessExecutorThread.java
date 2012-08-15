@@ -60,7 +60,7 @@ public class ProcessExecutorThread implements Runnable {
 			monitor.stop();
 			
 			if(manager != null){
-				manager.processTerminated(processInTask);
+				manager.processTerminated(processInTask, name);
 			}
 			
 			LOG.debug("Execucao do processo: " + process.getName() + " finalizada!");
