@@ -49,7 +49,7 @@ public class ExecutorServiceTests {
 		processInTask.setProcess(process);
 		
 		try {
-			executorService.executeProcess(processInTask, null);
+			executorService.executeProcess(processInTask, "teste", null);
 		} catch (ProcessExecutionException e) {
 			Assert.isNull(e);
 		}

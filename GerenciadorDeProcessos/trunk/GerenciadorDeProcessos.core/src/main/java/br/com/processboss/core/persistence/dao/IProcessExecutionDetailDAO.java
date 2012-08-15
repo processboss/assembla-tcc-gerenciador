@@ -10,5 +10,6 @@ public interface IProcessExecutionDetailDAO extends IDAO<ProcessExecutionDetail,
 
 	List<ProcessExecutionDetail> listByProcessInTask(ProcessInTask processInTask);
 	void deleteByProcessInTask(ProcessInTask processInTask);
+	List<ProcessExecutionDetail> getHistory(ProcessInTask process, int limit);
 
 }

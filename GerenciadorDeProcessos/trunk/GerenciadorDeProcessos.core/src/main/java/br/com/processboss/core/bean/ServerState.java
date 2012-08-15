@@ -3,12 +3,11 @@ package br.com.processboss.core.bean;
 import java.io.Serializable;
 
 import org.hyperic.sigar.CpuInfo;
+import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
 
 /**
  * Classe que contem as informacoes atuais do servidor
- * 
- * @author Felipe Ribeiro
  * 
  */
 public class ServerState implements Serializable {
@@ -17,6 +16,7 @@ public class ServerState implements Serializable {
 
 	private Mem memory;
 	private CpuInfo[] cpuInfo;
+	private CpuPerc cpuPerc;
 
 	public ServerState() {
 		// TODO Auto-generated constructor stub
@@ -37,5 +37,16 @@ public class ServerState implements Serializable {
 	public void setCpuInfo(CpuInfo[] cpuInfo) {
 		this.cpuInfo = cpuInfo;
 	}
+	
+	public double getCpuFree(){
+		return this.cpuPerc.getIdle() * 100;
+	}
 
+	public CpuPerc getCpuPerc() {
+		return cpuPerc;
+	}
+
+	public void setCpuPerc(CpuPerc cpuPerc) {
+		this.cpuPerc = cpuPerc;
+	}
 }

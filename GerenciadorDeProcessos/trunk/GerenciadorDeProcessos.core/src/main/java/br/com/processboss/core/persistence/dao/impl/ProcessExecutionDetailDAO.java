@@ -32,4 +32,14 @@ public class ProcessExecutionDetailDAO extends GenericDAO<ProcessExecutionDetail
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProcessExecutionDetail> getHistory(ProcessInTask processInTask, int limit) {
+		Criteria criteria = getSession().createCriteria(ProcessExecutionDetail.class);
+		criteria.createAlias("processInTask", "processInTask");
+		criteria.add(Restrictions.eq("processInTask.id", processInTask.getId()));
+		criteria.setMaxResults(limit);
+		return criteria.list();
+	}
+
 }
