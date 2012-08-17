@@ -76,7 +76,7 @@ public class ProcessMonitorThread implements Runnable {
 				
 				System.out.println("Processo " + pid + "- Mem:" + (detail.getMemoryMean()/1024)/1024 + " CPU:" + detail.getCpuMean()*100);
 				
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			}
 			
 		} catch (Exception e) {

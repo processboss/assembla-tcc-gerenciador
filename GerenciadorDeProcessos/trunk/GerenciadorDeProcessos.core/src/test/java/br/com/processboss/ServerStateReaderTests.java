@@ -24,6 +24,11 @@ public class ServerStateReaderTests {
 	private IServerStateService serverStateService;
 
 	@Test
+	public void testInit() throws Exception {
+		Thread.sleep(120L * 1000L);
+	}
+	
+	@Test
 	public void testRead() throws Exception {
 		
 		while(true){
