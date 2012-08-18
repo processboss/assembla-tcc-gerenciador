@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://java.sun.com/jsf/'html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -10,35 +10,40 @@
 		<p:growl id="messages" showDetail="true" sticky="true" />
 		<h:head>			
 			<link rel="stylesheet" type="text/css" href="css/estilo.css" />
-			<title>ProcessBoss</title>
+			<title>Process Boss</title>
 		</h:head>
 	
 		<h:body>					
 			
 			<div id="container">
-				<div id="top" />
+				<div class="topo">
+					<div><img src="img/titulo.png" width="380" height="31" alt="Gerenciador de Processos" /></div>
+				</div>
 			
-				<div id="leftCol">
-					<ui:include src="template/_menu.xhtml" />
+				<div class="menu">
+					<ul>
+						<li><a href="/processboss/index.jsf">Home</a></li>
+						<li><a href="/processboss/user/index.jsf">Usuários</a></li>
+						<li><a href="/processboss/process/index.jsf">Processos</a></li>
+						<li><a href="/processboss/task/index.jsf">Tarefas</a></li>
+					</ul>
 				</div>	
-				<div id="rightCol">
-					<ui:include src="template/_header.xhtml" />
+				
+				<div class="conteudo">
+					
+					Index
 
-					<div id="content">
-						<div class="first">
-							<h1>Gerenciador de processos</h1>
-						</div>
-						<div class="main">
-							<h2>Página em construção!!</h2>
-						</div>
-						<div class="last"></div>
-					
-					</div>
-					
+  
 				</div>		
-				<div id="footer" />
+				
+				<br class="clear" />
+				
+				<div class="rodape">
+					<div>Marco Paulo Ollivier e Felipe Ribeiro © 2012</div>
+				</div>
+
 			</div>
-			<p align="center">Copyright &copy; by Felipe Ribeiro e Marco Paulo Ollivier. </p>	
+				
 		</h:body>
 	</f:view>
 </html>
