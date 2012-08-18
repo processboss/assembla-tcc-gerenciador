@@ -173,8 +173,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>cupertino</artifactId>
-			<version>1.0.1</version>
+		<artifactId>black-tie</artifactId>
+		<version>1.0.7</version>
 		</dependency>		
 		
 		<!-- File Upload -->
@@ -250,12 +250,12 @@
             <id>jaspersoft</id>
             <url>http://cropwiki.irri.org/m2repo/net/sf-gcp</url>
         </repository>
-        <repository>
-            <id>prime-repo</id>
-            <name>Prime Technology Maven Repository</name>
-            <url>http://repository.prime.com.tr</url>
-            <layout>default</layout>
-        </repository>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
 
     </repositories>
 
