@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="../template/_template.xhtml">
+
+	<ui:define name="content">
+		<div id="content">
+			<div class="first">
+				<h1>Dashboard</h1>
+			</div>
+
+			<div class="main">
+				<h:form id="form">
+
+					<p:poll interval="1" update="category" />
+
+					<p:lineChart id="category" value="#{dashboardBean.categoryModel}"
+						legendPosition="nw" title="Estado do Servidor" minY="0" maxY="150"
+						style="height:200px;margin-top:20px" />
+
+				</h:form>
+			</div>
+
+			<div class="last"></div>
+			
+		</div>
+		
+	</ui:define>
+</ui:composition>
