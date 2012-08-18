@@ -62,7 +62,7 @@
 	<!-- Primefaces -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>cupertino</param-value>
+		<param-value>black-tie</param-value>
 	</context-param>
 	
 	<!-- File Upload -->
