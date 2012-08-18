@@ -16,21 +16,25 @@
 		<h:body>					
 			
 			<div id="container">
-				<div id="top" />
+				<div class="topo">
+					<ui:include src="_header.xhtml" />
+				</div>
 			
-				<div id="leftCol">
+				<div class="menu">
 					<ui:include src="_menu.xhtml" />
 				</div>	
 				
-				<div id="rightCol">
-					<ui:include src="_header.xhtml" />
+				<div class="conteudo">
 					<ui:insert name="content" />  
 				</div>		
 				
-				<div id="footer" />
-			</div>
+				<br class="clear" />
 				
-			<p align="center">Copyright &copy; by Felipe Ribeiro e Marco Paulo Ollivier. </p>	
+				<div class="rodape">
+					<div>Marco Paulo Ollivier e Felipe Ribeiro © 2012</div>
+				</div>
+
+			</div>
 				
 		</h:body>
 	</f:view>
