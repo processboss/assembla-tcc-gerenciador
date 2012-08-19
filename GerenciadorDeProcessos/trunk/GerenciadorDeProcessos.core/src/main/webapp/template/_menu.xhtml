@@ -6,17 +6,15 @@
 	xmlns:p="http://primefaces.org/ui">
 			
 	<ul>
-
-		<li><a href="/processboss/dashboard/index.jsf">Início</a></li>
+		<li><a href="/processboss/dashboard/index.jsf">Dashboard</a></li>
 	
 		<c:if test="#{loginBean.user.administrator}"> 	
-			<li><a href="/processboss/user/index.jsf">Usuários</a></li>
+			<li><a href="../user/index.jsf">Usuários</a></li>
 		</c:if>
 	
-		<li><a href="/processboss/process/index.jsf">Processos</a></li>
-		<li><a href="/processboss/task/index.jsf">Tarefas</a></li>
-		
-		<li><a href="../user/index.jsf"><span>Agendamentos</span></a></li>
+		<li><a href="../process/index.jsf">Processos</a></li>
+		<li><a href="../task/index.jsf">Tarefas</a></li>
+		<li><a href="../schedule/index.jsf">Agendamento</a></li>
 	</ul>	
 	
 

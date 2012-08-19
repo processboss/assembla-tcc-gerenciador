@@ -13,23 +13,26 @@
 			</div>
 							
 			<div class="main">
+			
+				<!-- Agendamento -->
 				<p:tabView id="tabView">
 
 					<p:tab id="tabMinutes" title="Por Minuto">
 						<h:form id="formTaskScheduleMinutes">
-							<p:messages />							
+							<p:messages />	
+							<ui:include src="selectTaskPage.xhtml" />
 							<table id="tableTaskScheduleMinutes">
 								<tr>
 									<td>
 										<h:outputLabel value="A cada " />
-										<p:inputText value="#{taskController.entitySchedule.minutes}" />
+										<p:inputText value="#{scheduleController.entity.minutes}" />
 										<h:outputLabel value=" minutos." />
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdateMinutes}" update="messages" />
-										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
+										<p:commandButton value="Salvar" ajax="false" action="#{scheduleController.saveOrUpdateMinutes}" update="messages"/>
+										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{scheduleController.cancel}" />
 									</td>
 								</tr>
 							
@@ -40,33 +43,34 @@
 					<p:tab id="tabHours" title="Por Hora">
 						<h:form id="tableTaskScheduleHours">
 							<p:messages />
+							<ui:include src="selectTaskPage.xhtml" />
 							<table id="tableTaskScheduleHours">
 								<tr>
 									<td>
-										<p:selectOneRadio id="customRadio" value="#{taskController.decisionOption}" layout="custom">  
+										<p:selectOneRadio id="customRadio" value="#{scheduleController.decisionOption}" layout="custom">  
 									        <f:selectItem itemLabel="Option 1" itemValue="1" />  
 									        <f:selectItem itemLabel="Option 2" itemValue="2" />  
 									    </p:selectOneRadio>
 	
 										<p:radioButton id="opt1" for="customRadio" itemIndex="0" />										
 										<h:outputLabel value="A cada " />
-										<p:inputText value="#{taskController.entitySchedule.hours}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.hours}" style="width:20px" />
 										<h:outputLabel value=" horas." />
 										
 										<br/>
 										
 										<p:radioButton id="opt2" for="customRadio" itemIndex="1" />
 										<h:outputLabel value="As " />
-										<p:inputText value="#{taskController.entitySchedule.hours}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.hours}" style="width:20px" />
 										<h:outputLabel value=" : " />
-										<p:inputText value="#{taskController.entitySchedule.minutes}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.minutes}" style="width:20px" />
 									
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdateHours}"  update="messages" />
-										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
+										<p:commandButton value="Salvar" ajax="false" action="#{scheduleController.saveOrUpdateHours}"  update="messages" />
+										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{scheduleController.cancel}" />
 									</td>
 								</tr>
 							
@@ -77,17 +81,18 @@
 					<p:tab id="tabDaily" title="Por Dia">
 						<h:form id="formTaskScheduleDaily">
 							<p:messages />
+							<ui:include src="selectTaskPage.xhtml" />
 							<table id="tableTaskScheduleDaily">
 								<tr>
 									<td>
-										<p:selectOneRadio id="customRadioDaily" value="#{taskController.decisionOption}" layout="custom">  
+										<p:selectOneRadio id="customRadioDaily" value="#{scheduleController.decisionOption}" layout="custom">  
 									        <f:selectItem itemLabel="Option 1" itemValue="1" />  
 									        <f:selectItem itemLabel="Option 2" itemValue="2" />  
 									    </p:selectOneRadio>
 
 										<p:radioButton id="opt3" for="customRadioDaily" itemIndex="0" />										
 										<h:outputLabel value="A cada " />
-										<p:inputText value="#{taskController.entitySchedule.dayOfMonth}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.dayOfMonth}" style="width:20px" />
 										<h:outputLabel value=" dia(s)." />
 										
 										<br/>
@@ -98,16 +103,16 @@
 										<br/>
 
 										<h:outputLabel value="Hora de início" />
-										<p:inputText value="#{taskController.entitySchedule.hours}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.hours}" style="width:20px" />
 										<h:outputLabel value=" : " />
-										<p:inputText value="#{taskController.entitySchedule.minutes}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.minutes}" style="width:20px" />
 									
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdateDaily}"  update="messages" />
-										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
+										<p:commandButton value="Salvar" ajax="false" action="#{scheduleController.saveOrUpdateDaily}"  update="messages" />
+										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{scheduleController.cancel}" />
 									</td>
 								</tr>
 							
@@ -118,39 +123,40 @@
 					<p:tab id="tabWeekly" title="Por Semana">
 						<h:form id="formTaskScheduleWeekly">
 							<p:messages />
+							<ui:include src="selectTaskPage.xhtml" />
 							<table id="tableTaskScheduleWeekly">
 								<tr>
 									<td>
 										
-										<p:selectBooleanCheckbox value="#{taskController.mon}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.mon}" />
 										<h:outputText value="Segunda-feira " />
-										<p:selectBooleanCheckbox value="#{taskController.tue}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.tue}" />
 										<h:outputText value="Terça-feira " />
-										<p:selectBooleanCheckbox value="#{taskController.wed}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.wed}" />
 										<h:outputText value="Quarta-feira " />
 										<br/>
-										<p:selectBooleanCheckbox value="#{taskController.thu}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.thu}" />
 										<h:outputText value="Quinta-feira " />
-										<p:selectBooleanCheckbox value="#{taskController.fri}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.fri}" />
 										<h:outputText value="Sexta-feira " />
-										<p:selectBooleanCheckbox value="#{taskController.sat}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.sat}" />
 										<h:outputText value="Sábado " />
-										<p:selectBooleanCheckbox value="#{taskController.sun}" />
+										<p:selectBooleanCheckbox value="#{scheduleController.sun}" />
 										<h:outputText value="Domingo " />
 										
 										<br/>
 
 										<h:outputLabel value="Hora de início" />
-										<p:inputText value="#{taskController.entitySchedule.hours}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.hours}" style="width:20px" />
 										<h:outputLabel value=" : " />
-										<p:inputText value="#{taskController.entitySchedule.minutes}" style="width:20px" />
+										<p:inputText value="#{scheduleController.entity.minutes}" style="width:20px" />
 									
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdateWeekly}"  update="messages" />
-										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
+										<p:commandButton value="Salvar" ajax="false" action="#{scheduleController.saveOrUpdateWeekly}"  update="messages" />
+										<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{scheduleController.cancel}" />
 									</td>
 								</tr>
 							

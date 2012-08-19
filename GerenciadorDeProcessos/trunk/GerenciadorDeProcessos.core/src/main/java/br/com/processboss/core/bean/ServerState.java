@@ -19,7 +19,6 @@ public class ServerState implements Serializable {
 	private CpuPerc cpuPerc;
 
 	public ServerState() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Mem getMemory() {
