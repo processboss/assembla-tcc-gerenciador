@@ -32,7 +32,7 @@ public class ScheduleTests {
 
 		process.setName("TesteSchedule");
 		process.setDescription("Teste de Schedule.");
-		process.setPath("/home/felipe/scripts/teste001.sh");
+		process.setPath("/tmp/processboss/simulador1.sh");
 		
 		processService.save(process);
 		

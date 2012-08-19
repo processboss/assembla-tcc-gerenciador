@@ -25,6 +25,7 @@ public class ServerStateService implements IServerStateService {
 	private static final Logger LOG = LoggerFactory.getLogger(ServerStateService.class); 
 	
 	private static final Map<String, ProcessInTask> IN_PROGRESS = new HashMap<String, ProcessInTask>();
+	private static final List<ProcessInTask> WAITING = new ArrayList<ProcessInTask>();
 	/**
 	 * Le as informacoes de hardware do servidor
 	 * 
@@ -102,9 +103,29 @@ public class ServerStateService implements IServerStateService {
 	}
 	
 	@Override
+	public void addProcessWaiting(ProcessInTask processInTask) {
+		WAITING.add(processInTask);
+		
+	}
+
+	@Override
+	public void removeProcessWaiting(ProcessInTask processInTask) {
+		WAITING.remove(processInTask);
+	}
+	
+	@Override
 	public List<ProcessInTask> getInProgressProcess(){
 		List<ProcessInTask> list = new ArrayList<ProcessInTask>();
 		for (ProcessInTask process : IN_PROGRESS.values()) {
+			list.add(process);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<ProcessInTask> getWaitingProcess(){
+		List<ProcessInTask> list = new ArrayList<ProcessInTask>();
+		for (ProcessInTask process : WAITING) {
 			list.add(process);
 		}
 		return list;
