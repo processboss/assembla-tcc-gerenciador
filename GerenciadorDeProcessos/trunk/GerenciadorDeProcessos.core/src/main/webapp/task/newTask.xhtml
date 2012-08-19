@@ -28,20 +28,13 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<p:pickList id="pojoPickList"  value="#{taskController.processes}"  
-							                    var="process" iconOnly="true" effect="bounce"  
-							                    itemValue="#{process}"  converter="processConverter" 
-							                    showSourceControls="true" showTargetControls="true"
-							                    
-							                    >  
-							        <f:facet name="sourceCaption">Processos</f:facet>  
-							        <f:facet name="targetCaption">Adicionados</f:facet>  
-							  
-							        <p:column style="width:25%">  
-							            <h:outputLabel value="#{process.name}" />  
-							        </p:column>  
- 
-							    </p:pickList>  
+								
+								<p:dataList id="ProcessDataList" value="#{taskController.processList}" var="process">
+									<f:facet name="description">
+										<h:outputLabel value="#{process.process.name}" />									
+									</f:facet>
+								</p:dataList>
+					
 							</td>
 						</tr>
 						<tr>

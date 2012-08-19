@@ -1,5 +1,7 @@
 package br.com.processboss.core.service;
 
+import java.util.List;
+
 import br.com.processboss.core.bean.ServerState;
 import br.com.processboss.core.model.ProcessInTask;
 
@@ -17,4 +19,6 @@ public interface IServerStateService {
 	String addProcessExecution(ProcessInTask processInTask);
 	
 	void removeProcessExecution(String processExecutionKey);
+	
+	List<ProcessInTask> getInProgressProcess();
 }

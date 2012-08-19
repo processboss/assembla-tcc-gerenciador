@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -19,6 +20,7 @@ import org.primefaces.model.chart.ChartSeries;
 
 import br.com.processboss.core.bean.ServerState;
 import br.com.processboss.core.service.IServerStateService;
+import br.com.processboss.core.model.ProcessInTask;
 
 @ManagedBean(name="dashboardBean")
 @SessionScoped
@@ -87,6 +89,10 @@ public class DashboardBean implements Serializable {
         return categoryModel;  
     }  
   
+    public List<ProcessInTask> getActiveProcesses(){
+    	return serverStateService.getInProgressProcess();
+    }
+    
 	public IServerStateService getServerStateService() {
 		return serverStateService;
 	}
