@@ -20,5 +20,11 @@ public interface IServerStateService {
 	
 	void removeProcessExecution(String processExecutionKey);
 	
+	void addProcessWaiting(ProcessInTask processInTask);
+	
+	void removeProcessWaiting(ProcessInTask processInTask);
+	
 	List<ProcessInTask> getInProgressProcess();
+
+	List<ProcessInTask> getWaitingProcess();
 }

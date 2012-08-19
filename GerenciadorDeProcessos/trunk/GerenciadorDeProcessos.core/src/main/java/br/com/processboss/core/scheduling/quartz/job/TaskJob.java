@@ -54,6 +54,10 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 		 */
 		organizeProcess(processes);
 		
+		for (ProcessInTask processInTask : toExecute) {
+			serverStateService.addProcessWaiting(processInTask);
+		}
+		
 		try {
 			while(!CollectionUtils.isEmpty(toExecute)){
 				
@@ -70,6 +74,7 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 						continue;
 					}
 					
+					serverStateService.removeProcessWaiting(processInTask);
 					String processExecutionKey = serverStateService.addProcessExecution(processInTask);
 
 					/**

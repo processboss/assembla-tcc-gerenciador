@@ -20,12 +20,26 @@
 					<p:lineChart id="category" value="#{dashboardBean.categoryModel}"
 						legendPosition="nw" title="Estado do Servidor" minY="0" maxY="150"
 						style="height:200px;margin-top:20px" />
+					
+					<br/><br/>
 
 					<p:dataTable id="activeProcessesList" value="#{dashboardBean.activeProcesses}" 
-						var="process" emptyMessage="Nenhum processo está em execução" style="width:100px;">
+						var="process" emptyMessage="Nenhum processo está em execução" style="width:200px;">
 						<p:column id="inProcessColumn">
 							<f:facet name="header">
 								Processos em Execução
+							</f:facet>
+							<h:outputLabel value="#{process.process.name}" />
+						</p:column>
+					</p:dataTable>
+					
+					<br></br>
+					
+					<p:dataTable id="waitProcessesList" value="#{dashboardBean.waitProcesses}" 
+						var="process" emptyMessage="Nenhum processo na fila" style="width:200px;">
+						<p:column id="waitColumn">
+							<f:facet name="header">
+								Processos em espera
 							</f:facet>
 							<h:outputLabel value="#{process.process.name}" />
 						</p:column>

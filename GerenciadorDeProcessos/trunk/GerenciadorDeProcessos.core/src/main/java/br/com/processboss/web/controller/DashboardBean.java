@@ -93,6 +93,10 @@ public class DashboardBean implements Serializable {
     	return serverStateService.getInProgressProcess();
     }
     
+    public List<ProcessInTask> getWaitProcesses(){
+    	return serverStateService.getWaitingProcess();
+    }
+    
 	public IServerStateService getServerStateService() {
 		return serverStateService;
 	}
