@@ -84,17 +84,16 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 					iterator.remove();
 				}
 				
-				Thread.sleep(1000L);
+				/**
+				 * Se existir algum processo que ainda nao foi executado,
+				 * seja por falta de recursos, ou por causa das dependencias,
+				 * aguarda um segundo e tenta executar novamente.
+				 */
+				while(processes.size() != executed.size()){
+					Thread.sleep(1000L);
+				}
 			}
 			
-			/**
-			 * Se existir algum processo que ainda nao foi executado,
-			 * seja por falta de recursos, ou por causa das dependencias,
-			 * aguarda um segundo e tenta executar novamente.
-			 */
-			while(processes.size() != executed.size()){
-				Thread.sleep(1000L);
-			}
 
 		} catch (ProcessExecutionException e) {
 			throw new JobExecutionException(e);

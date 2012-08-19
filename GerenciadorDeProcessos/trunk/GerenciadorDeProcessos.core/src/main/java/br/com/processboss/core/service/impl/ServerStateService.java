@@ -1,7 +1,9 @@
 package br.com.processboss.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hyperic.sigar.Sigar;
@@ -34,7 +36,7 @@ public class ServerStateService implements IServerStateService {
 		try {
 			Sigar.load();
 			Sigar sigar = new Sigar();
-			
+
 			/**
 			 * Informacoes da CPU
 			 */
@@ -58,7 +60,7 @@ public class ServerStateService implements IServerStateService {
 	@Override
 	public boolean canExecute(ProcessInTask processInTask) {
 		ServerState serverState = read();
-		long serverMemory = serverState.getMemory().getFree();
+		long serverMemory = serverState.getMemory().getTotal();
 		
 		Resources alocatedResources = getAlocatedResources();
 		
@@ -97,6 +99,15 @@ public class ServerStateService implements IServerStateService {
 	@Override
 	public void removeProcessExecution(String processExecutionKey) {
 		IN_PROGRESS.remove(processExecutionKey);
+	}
+	
+	@Override
+	public List<ProcessInTask> getInProgressProcess(){
+		List<ProcessInTask> list = new ArrayList<ProcessInTask>();
+		for (ProcessInTask process : IN_PROGRESS.values()) {
+			list.add(process);
+		}
+		return list;
 	}
 	
 }

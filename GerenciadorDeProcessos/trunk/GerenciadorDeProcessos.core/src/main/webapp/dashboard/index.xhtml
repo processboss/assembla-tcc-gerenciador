@@ -15,11 +15,21 @@
 			<div class="main">
 				<h:form id="form">
 
-					<p:poll interval="1" update="category" />
+					<p:poll interval="1" update="category, activeProcessesList" />
 
 					<p:lineChart id="category" value="#{dashboardBean.categoryModel}"
 						legendPosition="nw" title="Estado do Servidor" minY="0" maxY="150"
 						style="height:200px;margin-top:20px" />
+
+					<p:dataTable id="activeProcessesList" value="#{dashboardBean.activeProcesses}" 
+						var="process" emptyMessage="Nenhum processo está em execução" style="width:100px;">
+						<p:column id="inProcessColumn">
+							<f:facet name="header">
+								Processos em Execução
+							</f:facet>
+							<h:outputLabel value="#{process.process.name}" />
+						</p:column>
+					</p:dataTable>
 
 				</h:form>
 			</div>

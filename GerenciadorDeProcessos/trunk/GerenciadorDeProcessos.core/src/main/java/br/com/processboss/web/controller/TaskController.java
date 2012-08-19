@@ -41,7 +41,7 @@ public class TaskController extends _Bean {
 	private Task entity = new Task();
 	private DualListModel<Process> processes = null;
 	
-	private List<Process> processList = new ArrayList<Process>();
+	private List<ProcessInTask> processList = new ArrayList<ProcessInTask>();
 	
 	/*
 	 * CONSTRUTORES
@@ -99,11 +99,11 @@ public class TaskController extends _Bean {
 		this.scheduleService = scheduleService;
 	}
 	
-	public List<Process> getProcessList() {
+	public List<ProcessInTask> getProcessList() {
 		return processList;
 	}
 
-	public void setProcessList(List<Process> processList) {
+	public void setProcessList(List<ProcessInTask> processList) {
 		this.processList = processList;
 	}
 
