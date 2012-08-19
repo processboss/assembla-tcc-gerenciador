@@ -32,7 +32,7 @@ public class Schedule implements Serializable {
 	private String dayOfWeek;
 	private String year;
 	
-	@OneToOne(cascade=CascadeType.REMOVE,  targetEntity=Task.class)
+	@OneToOne(targetEntity=Task.class)
 	private Task task;
 	
 	public Schedule() {}
@@ -151,4 +151,12 @@ public class Schedule implements Serializable {
 		
 		return expr.toString();
 	}
+	
+	/**
+	 * Metodo criado apenas para atender ao padrão reconhecido pelo Primefaces 
+	 */
+	public String getBuildExpression(){
+		return buildExpression();
+	}
+	
 }
