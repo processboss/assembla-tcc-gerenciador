@@ -8,8 +8,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import br.com.processboss.core.exception.ProcessBossException;
 import br.com.processboss.core.model.Schedule;
 import br.com.processboss.core.model.Task;
+import br.com.processboss.core.scheduling.quartz.ScheduleManager;
 import br.com.processboss.core.service.IScheduleService;
 import br.com.processboss.core.service.ITaskService;
 
@@ -24,6 +26,9 @@ public class ScheduleController extends _Bean{
 
 	@ManagedProperty(name="scheduleService", value="#{scheduleService}")
 	private IScheduleService scheduleService;
+	
+	@ManagedProperty(name="scheduleManager", value="#{scheduleManager}")
+	private ScheduleManager scheduleManager;
 	
 	private Task entityTask;
 	private Schedule entity;
@@ -160,12 +165,19 @@ public class ScheduleController extends _Bean{
 	}
 	
 	public String delete(){
-		if(entity != null){
-			scheduleService.delete(entity);
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Agendamento removido com sucesso", ""));
-			return "index";
-		}else{
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir o agendamento", ""));
+		try {
+			if(entity != null){
+				scheduleManager.removeTrigger(entity);
+				scheduleService.delete(entity);
+				addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Agendamento removido com sucesso", ""));
+				return "index";
+			}else{
+				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel excluir o agendamento", ""));
+				return null;
+			}
+		} catch (ProcessBossException e) {
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro ao excluir o agendamento", ""));
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -176,23 +188,34 @@ public class ScheduleController extends _Bean{
 	
 	private String saveOrUpdateSchedule(String minutes, String hours, String dayOfMonth, String month, String dayOfWeek){
 		
-		if(entityTask == null){
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione uma tarefa", ""));
-			return "";
+		try {
+			if(entityTask == null){
+				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione uma tarefa", ""));
+				return "";
+			}
+			
+			entity.setSeconds("0");
+			entity.setMinutes(minutes);
+			entity.setHours(hours);
+			entity.setDayOfMonth(dayOfMonth);
+			entity.setMonth(month);
+			entity.setDayOfWeek(dayOfWeek);
+			entity.setYear("*");
+			entity.setTask(entityTask); 
+			
+			
+			scheduleService.saveOrUpdate(entity);
+			
+			scheduleManager.removeTrigger(entity);
+			scheduleManager.addTrigger(entity);
+			
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Tarefa agendada com sucesso", ""));
+		
+		} catch (ProcessBossException e) {
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Ocorreu um erro ao agendar a tarefa.", ""));
+			e.printStackTrace();
+			return null;
 		}
-		
-		entity.setSeconds("0");
-		entity.setMinutes(minutes);
-		entity.setHours(hours);
-		entity.setDayOfMonth(dayOfMonth);
-		entity.setMonth(month);
-		entity.setDayOfWeek(dayOfWeek);
-		entity.setYear("*");
-		entity.setTask(entityTask); 
-		
-		
-		scheduleService.saveOrUpdate(entity);
-		addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Tarefa agendada com sucesso", ""));
 		
 		return "index";
 	}
@@ -226,6 +249,14 @@ public class ScheduleController extends _Bean{
 		if(sun) week.append("SUN,");
 		
 		return saveOrUpdateSchedule(entity.getMinutes(), entity.getHours(), "?", "*", week.toString());
+	}
+
+	public ScheduleManager getScheduleManager() {
+		return scheduleManager;
+	}
+
+	public void setScheduleManager(ScheduleManager scheduleManager) {
+		this.scheduleManager = scheduleManager;
 	}
 	
 }
