@@ -42,13 +42,13 @@ public class DashboardBean implements Serializable {
     	categoryModel = new CartesianChartModel();  
     }  
   
-    public CartesianChartModel getCategoryModel() {  
+    public CartesianChartModel getServerState() {  
     	categoryModel.clear();
     	
     	Date now = new Date();
     	ServerState serverState = serverStateService.read();
     	
-    	Date remove = DateUtils.addSeconds(now, -10);
+    	Date remove = DateUtils.addSeconds(now, -50);
 
     	memoryHistory.remove(sdf.format(remove));
     	memoryHistory.put(now.getTime(), serverState.getMemory().getUsedPercent());

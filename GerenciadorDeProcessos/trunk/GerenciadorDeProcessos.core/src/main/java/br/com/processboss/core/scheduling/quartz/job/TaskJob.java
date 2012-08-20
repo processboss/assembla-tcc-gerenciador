@@ -94,7 +94,7 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 				 * seja por falta de recursos, ou por causa das dependencias,
 				 * aguarda um segundo e tenta executar novamente.
 				 */
-				while(processes.size() != executed.size()){
+				if(processes.size() != executed.size()){
 					Thread.sleep(1000L);
 				}
 			}
