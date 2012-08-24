@@ -172,7 +172,7 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 			jobDataMap.put("serverStateService", serverStateService);
 			
 			JobDetail job = newJob(TaskJob.class)
-				    .withIdentity(String.valueOf(task.getId()), Scheduler.DEFAULT_GROUP)
+				    .withIdentity(String.valueOf(schedule.getId()), String.valueOf(task.getId()))
 				    .storeDurably()
 				    .requestRecovery()
 				    .usingJobData(jobDataMap)
@@ -193,7 +193,7 @@ public class ScheduleManagerImpl implements ScheduleManager, InitializingBean{
 			TriggerBuilder<Trigger> triggerBuilder = newTrigger();
 			
 			triggerBuilder
-					.withIdentity(String.valueOf(task.getId()), Scheduler.DEFAULT_GROUP)
+					.withIdentity(String.valueOf(schedule.getId()), String.valueOf(task.getId()))
 				    .withSchedule(CronScheduleBuilder.cronSchedule(schedule.buildExpression()));
 			
 			if(jobDetail != null)

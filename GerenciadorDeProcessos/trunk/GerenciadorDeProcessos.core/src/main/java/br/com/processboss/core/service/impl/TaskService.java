@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.processboss.core.model.Process;
 import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.model.Task;
 import br.com.processboss.core.persistence.dao.IProcessExecutionDetailDAO;
@@ -66,6 +67,11 @@ public class TaskService implements ITaskService {
 	@Override
 	public Task loadProcesses(Task task) {
 		return taskDAO.loadProcesses(task);
+	}
+	
+	@Override
+	public List<Task> findByProcess(Process process) {
+		return taskDAO.findByProcess(process);
 	}
 
 	public ITaskDAO getTaskDAO() {

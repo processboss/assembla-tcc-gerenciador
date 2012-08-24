@@ -35,6 +35,12 @@
 							</p:column>
 							
 							<p:column style="width:60px;" >
+								<p:commandLink value="Detalhes" ajax="false" action="#{processController.loadDetails}" >
+									<f:param name="entity" value="#{entity}" />
+								</p:commandLink>
+							</p:column>
+							
+							<p:column style="width:60px;" >
 								<p:commandLink value="Alterar" ajax="false" action="#{processController.updateEntity}" >
 									<f:param name="entity" value="#{entity}" />
 								</p:commandLink>
