@@ -17,9 +17,7 @@ public abstract class _Bean implements Serializable {
 
 	private static final long serialVersionUID = -519689694628568590L;
 	
-	@Autowired
-	protected ApplicationContext context;
-
+	
 	public _Bean() {
 		Locale.setDefault(new Locale("pt","BR"));
 	}

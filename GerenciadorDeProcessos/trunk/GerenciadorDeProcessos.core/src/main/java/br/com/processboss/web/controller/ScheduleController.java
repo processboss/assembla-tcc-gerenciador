@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import org.apache.commons.logging.Log;
+
 import br.com.processboss.core.exception.ProcessBossException;
 import br.com.processboss.core.model.Schedule;
 import br.com.processboss.core.model.Task;
@@ -19,6 +21,8 @@ import br.com.processboss.core.service.ITaskService;
 @SessionScoped
 public class ScheduleController extends _Bean{
 
+	private static final Log LOGGER = org.apache.commons.logging.LogFactory.getLog(ScheduleController.class);
+	
 	private static final long serialVersionUID = 8392833176042591878L;
 
 	@ManagedProperty(name="taskService", value="#{taskService}")
@@ -203,6 +207,8 @@ public class ScheduleController extends _Bean{
 			entity.setYear("*");
 			entity.setTask(entityTask); 
 			
+			LOGGER.info("Cron Expression: " + entity.getBuildExpression());
+			LOGGER.debug("Cron Expression: " + entity.getBuildExpression());
 			
 			scheduleService.saveOrUpdate(entity);
 			
@@ -235,7 +241,7 @@ public class ScheduleController extends _Bean{
 		if(decisionOption == 1)
 			return saveOrUpdateSchedule(entity.getMinutes(), entity.getHours(), "1/" + entity.getDayOfMonth(), "*", "?");
 		else
-			return saveOrUpdateSchedule(entity.getMinutes(), entity.getHours(), "?", "*", "MON-FRI");
+			return saveOrUpdateSchedule(entity.getMinutes(), entity.getHours(), "*", "*", "?");
 	}
 
 	public String saveOrUpdateWeekly(){

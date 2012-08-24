@@ -9,7 +9,7 @@
 	<ui:define name="content">
 		<div id="content">
 			<div class="first">
-				<h3>Adicionar Tarefa</h3>
+				<h3>Adicionar Dependências</h3>
 			</div>
 							
 			<div class="main">
@@ -19,23 +19,16 @@
 					
 						<tr>
 							<td><h:outputLabel value="Nome: " /></td>
-							<td><p:inputText value="#{taskController.entity.name}" required="true" requiredMessage="Nome é obrigatório" /></td>
+							<td><h:outputLabel value="#{taskController.entity.name}" /></td>
 							
 						</tr>
 						<tr>
 							<td><h:outputLabel value="Descrição: " /></td>
-							<td><p:inputText value="#{taskController.entity.description}"  /></td>
+							<td><h:outputLabel value="#{taskController.entity.description}" /></td>
 						</tr>
 						<tr>
-							<td>
-								<p:selectOneMenu value="#{taskController.entityProcess}" effect="fade" 
-												converter="processConverter">
-									<f:selectItem itemLabel="Selecione um processo" itemValue="0" />
-									<f:selectItems value="#{taskController.allProcesses}" var="process" itemLabel="#{process.name}" itemValue="#{process}"/>
-								</p:selectOneMenu>
-							</td>
-							<td>
-								<p:commandButton value="Add" ajax="false" actionListener="#{taskController.addProcess}" update="messages" />			
+							<td colspan="2">
+								
 							</td>
 						</tr>
 						<tr>
@@ -48,13 +41,17 @@
 										</f:facet>
 										<h:outputLabel value="#{entityProcess.process.name}" />
 									</p:column>
+									<p:column>
+										<p:commandButton value="Adicionar dependência" ajax="false" action="#{taskController.addDependenciePage}">
+											<f:param name="entityProcess" value="#{entityProcess}" />
+										</p:commandButton>
+									</p:column>
 								</p:dataTable>	
 
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<p:commandButton value="Adicionar Dependências" ajax="false" action="#{taskController.newDependencies}" update="messages" />
 								<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdate}" update="messages" />
 								<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
 							</td>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.processboss.core.model.Process;
 import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.persistence.dao.IProcessInTaskDAO;
 import br.com.processboss.core.service.IProcessInTaskService;
@@ -56,6 +57,11 @@ public class ProcessInTaskService implements IProcessInTaskService {
 	@Override
 	public ProcessInTask loadExecutionDetails(ProcessInTask processInTask) {
 		return processInTaskDAO.loadExecutionDetails(processInTask);
+	}
+
+	@Override
+	public List<ProcessInTask> findByProcess(Process process) {
+		return processInTaskDAO.findByProcess(process);
 	}
 
 

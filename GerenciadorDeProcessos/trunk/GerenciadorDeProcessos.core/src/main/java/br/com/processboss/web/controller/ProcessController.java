@@ -1,5 +1,6 @@
 package br.com.processboss.web.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,31 +87,41 @@ public class ProcessController extends _Bean implements Serializable {
 	
 	public String saveOrUpdate(){
 
-		if(file == null){
-			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo, pois e preciso anexar um arquivo.", ""));
+		File existentFile = new File(entity.getPath());
+		boolean pathExists = existentFile.exists();
+		
+		//valida se um arquivo está sendo enviado, ou se existe o arquivo no caminho selecionado
+		if(file == null && pathExists == false){
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo, pois e preciso anexar um arquivo ou apontar para um existente.", ""));
+			return null;
+		}
+		
+		if(existentFile != null && entity.getPath().equals("")){
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Caminho é obrigatório.", ""));
 			return null;
 		}
 		
 		if(entity != null){
 			
-			try {
-				
-//				String newPath = entity.getPath() + file.getFileName();
-				String newPath = entity.getPath();
-				
-				byte[] conteudo = file.getContents();
-				FileOutputStream fos = new FileOutputStream(newPath);
-				fos.write(conteudo);
-				fos.close();
-				
-			} catch (FileNotFoundException e) {
-				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
-				e.printStackTrace();
-				return null;
-			} catch (IOException e) {
-				addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
-				e.printStackTrace();
-				return null;
+			if(file != null){
+				try {
+					
+					String newPath = entity.getPath();
+					
+					byte[] conteudo = file.getContents();
+					FileOutputStream fos = new FileOutputStream(newPath);
+					fos.write(conteudo);
+					fos.close();
+					
+				} catch (FileNotFoundException e) {
+					addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
+					e.printStackTrace();
+					return null;
+				} catch (IOException e) {
+					addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel inserir/alterar o processo. O arquivo anexado esta corrompido.", ""));
+					e.printStackTrace();
+					return null;
+				}
 			}
 			
 			processService.saveOrUpdate(entity);
@@ -142,5 +153,10 @@ public class ProcessController extends _Bean implements Serializable {
         	file = event.getFile();  
         }  
     } 
-	
+
+    public String loadDetails(){
+    	entity = (Process)getJsfParam("entity");
+    	return "processDetails";
+    }
+    
 }

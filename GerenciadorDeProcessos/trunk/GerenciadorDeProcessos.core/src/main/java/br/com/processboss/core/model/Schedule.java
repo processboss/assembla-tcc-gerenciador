@@ -11,6 +11,8 @@ import javax.persistence.OneToOne;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.processboss.core.util.CronConverterUtil;
+
 /**
  * Classe que representa um agendamento
  */
@@ -156,7 +158,7 @@ public class Schedule implements Serializable {
 	 * Metodo criado apenas para atender ao padrão reconhecido pelo Primefaces 
 	 */
 	public String getBuildExpression(){
-		return buildExpression();
+		return CronConverterUtil.converterToText(buildExpression());
 	}
 	
 }

@@ -78,4 +78,14 @@ public class ProcessInTask {
 	public void setExecutionDetails(List<ProcessExecutionDetail> executionDetails) {
 		this.executionDetails = executionDetails;
 	}
+	
+	//Debito tecnico por conta do JSF
+	public List<ProcessInTask> getListDependencies(){
+		List<ProcessInTask> list = new ArrayList<ProcessInTask>();
+		for (ProcessInTask processInTask : dependencies) {
+			list.add(processInTask);
+		}
+		return list;
+	}
+	
 }

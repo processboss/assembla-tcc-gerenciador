@@ -9,53 +9,62 @@
 	<ui:define name="content">
 		<div id="content">
 			<div class="first">
-				<h3>Adicionar Tarefa</h3>
+				<h3>Adicionar Dependências</h3>
 			</div>
 							
 			<div class="main">
 				<h:form id="formTaskUpdate">
 					<p:messages />
 					<table id="tableTaskUpdate">
-					
+						
+						<th>
+							<td colspan="2">
+								<b>Informações da Tarefa</b>
+							</td>
+						</th>
 						<tr>
 							<td><h:outputLabel value="Nome: " /></td>
-							<td><p:inputText value="#{taskController.entity.name}" required="true" requiredMessage="Nome é obrigatório" /></td>
+							<td><h:outputLabel value="#{taskController.entity.name}" /></td>
 							
 						</tr>
+						<th>
+							<td colspan="2">
+								<b>Informações do Processo</b>
+							</td>
+						</th>
 						<tr>
-							<td><h:outputLabel value="Descrição: " /></td>
-							<td><p:inputText value="#{taskController.entity.description}"  /></td>
+							<td><h:outputLabel value="Nome: " /></td>
+							<td><h:outputLabel value="#{taskController.entityProcessInTask.process.name}" /></td>
 						</tr>
 						<tr>
-							<td>
+							<td><h:outputLabel value="Caminho: " /></td>
+							<td><h:outputLabel value="#{taskController.entityProcessInTask.process.path}" /></td>
+						</tr>
+						<tr>
+							<td colspan="2">
 								<p:selectOneMenu value="#{taskController.entityProcess}" effect="fade" 
 												converter="processConverter">
 									<f:selectItem itemLabel="Selecione um processo" itemValue="0" />
 									<f:selectItems value="#{taskController.allProcesses}" var="process" itemLabel="#{process.name}" itemValue="#{process}"/>
 								</p:selectOneMenu>
-							</td>
-							<td>
-								<p:commandButton value="Add" ajax="false" actionListener="#{taskController.addProcess}" update="messages" />			
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" >
-								
-								<p:dataTable id="listProcesses" var="entityProcess" value="#{taskController.entity.processes}" >
-									<p:column>
-										<f:facet name="header">
-											<h:outputLabel value="Processo" />
-										</f:facet>
-										<h:outputLabel value="#{entityProcess.process.name}" />
-									</p:column>
-								</p:dataTable>	
-
+								<p:commandButton value="Add" ajax="false" actionListener="#{taskController.addDependencie}" update="messages" />
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<p:commandButton value="Adicionar Dependências" ajax="false" action="#{taskController.newDependencies}" update="messages" />
-								<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdate}" update="messages" />
+								<p:dataTable id="listProcesses" var="pit" value="#{taskController.entityProcessInTask.listDependencies}" >
+									<p:column>
+										<f:facet name="header">
+											<h:outputLabel value="Processo" />
+										</f:facet>
+										<h:outputLabel value="#{pit.process.name}" />
+									</p:column>
+								</p:dataTable>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p:commandButton value="Salvar" ajax="false" action="#{taskController.saveOrUpdateDependency}" update="messages" />
 								<p:commandButton value="Cancelar" ajax="false" immediate="true" action="#{taskController.cancel}" />
 							</td>
 						</tr>

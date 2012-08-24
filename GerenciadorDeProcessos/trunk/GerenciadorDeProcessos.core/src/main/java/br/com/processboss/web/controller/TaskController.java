@@ -1,6 +1,5 @@
 package br.com.processboss.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,11 +8,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
-import org.primefaces.model.DualListModel;
-
 import br.com.processboss.core.model.Process;
 import br.com.processboss.core.model.ProcessInTask;
-import br.com.processboss.core.model.Schedule;
 import br.com.processboss.core.model.Task;
 import br.com.processboss.core.service.IProcessInTaskService;
 import br.com.processboss.core.service.IProcessService;
@@ -38,10 +34,9 @@ public class TaskController extends _Bean {
 	@ManagedProperty(name="scheduleService", value="#{scheduleService}")
 	private IScheduleService scheduleService;
 	
-	private Task entity = new Task();
-	private DualListModel<Process> processes = null;
-	
-	private List<ProcessInTask> processList = new ArrayList<ProcessInTask>();
+	private Task entity;
+	private Process entityProcess;
+	private ProcessInTask entityProcessInTask;
 	
 	/*
 	 * CONSTRUTORES
@@ -75,12 +70,20 @@ public class TaskController extends _Bean {
 		this.entity = entity;
 	}
 	
-	public DualListModel<Process> getProcesses() {
-		return processes;
+	public Process getEntityProcess() {
+		return entityProcess;
 	}
 	
-	public void setProcesses(DualListModel<Process> processes) {
-		this.processes = processes;
+	public void setEntityProcess(Process entityProcess) {
+		this.entityProcess = entityProcess;
+	}
+	
+	public ProcessInTask getEntityProcessInTask() {
+		return entityProcessInTask;
+	}
+	
+	public void setEntityProcessInTask(ProcessInTask entityProcessInTask) {
+		this.entityProcessInTask = entityProcessInTask;
 	}
 	
 	public IProcessInTaskService getProcessInTaskService() {
@@ -99,28 +102,20 @@ public class TaskController extends _Bean {
 		this.scheduleService = scheduleService;
 	}
 	
-	public List<ProcessInTask> getProcessList() {
-		return processList;
-	}
-
-	public void setProcessList(List<ProcessInTask> processList) {
-		this.processList = processList;
-	}
-
 	/*
 	 * DESENVOLVIMENTO
 	 */
 	public List<Task> getAllEntities(){
 		return taskService.listAll();
 	}
-	
+		
 	public String updateEntity(){
 		entity = (Task)getJsfParam("entity");
+		entity = taskService.loadProcesses(entity);
 		return "updateTask";
 	}
 	
 	public String newEntity(){
-		loadProcess();
 		entity = new Task();
 		return "newTask";
 	}
@@ -131,17 +126,6 @@ public class TaskController extends _Bean {
 	
 	public String saveOrUpdate(){
 		if(entity != null){
-			
-			if (processes.getTarget() != null){
-				List<ProcessInTask> processInTasks = new ArrayList<ProcessInTask>();
-				for (Process process : processes.getTarget()) {
-					ProcessInTask pit = new ProcessInTask();
-					pit.setProcess(process);
-					processInTasks.add(pit);
-				}
-				entity.setProcesses(processInTasks);
-			}
-			
 			taskService.saveOrUpdate(entity);
 			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Tarefa inserido/alterado com suscesso", ""));
 			return "index";
@@ -166,11 +150,51 @@ public class TaskController extends _Bean {
 		}
 	}
 	
-	private void loadProcess(){
-		List<Process> source = processService.listAll();
-		List<Process> target = new ArrayList<Process>();
-		
-		processes = new DualListModel<Process>(source, target);
+	public List<Process> getAllProcesses(){
+		return processService.listAll();
+	}
+
+	public void addProcess(ActionEvent event){
+		ProcessInTask pit = new ProcessInTask();
+		pit.setProcess(entityProcess);
+		entity.getProcesses().add(pit);
+	}
+
+	/**
+	 * Este método é chamado quando há a necessidade de adição de dependência entre processos de uma tarefa.
+	 * Antes de efetuar o encaminhamento para a próxima página, o método salva o estado atual da tarefa e atualiza o objeto da sessão.
+	 * @return Caminho da página de adição de dependência
+	 */
+	public String newDependencies() {
+		if(entity != null){
+			entity = taskService.saveOrUpdate(entity);
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Tarefa inserido/alterado com suscesso", ""));
+			return "newDependencies";
+		}else{
+			addMessage(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao foi possivel salvar/alterar a tarefa.", ""));
+			return null;
+		}
+	}
+
+	/**
+	 * @return Caminho da página de adição de dependência
+	 */
+	public String addDependenciePage(){
+		entityProcessInTask = (ProcessInTask)getJsfParam("entityProcess");
+		return "addDependencie";
+	}
+	
+	public void addDependencie(ActionEvent event){
+		ProcessInTask pit = new ProcessInTask();
+		pit.setProcess(entityProcess);
+		entityProcessInTask.getDependencies().add(pit);
+	}
+	
+	public String saveOrUpdateDependency(){
+		if(entityProcessInTask != null){
+			processInTaskService.saveOrUpdate(entityProcessInTask);
+		}
+		return "index";
 	}
 	
 }
