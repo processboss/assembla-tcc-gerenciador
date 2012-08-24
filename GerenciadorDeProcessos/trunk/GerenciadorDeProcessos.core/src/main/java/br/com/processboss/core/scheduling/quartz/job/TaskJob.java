@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
@@ -14,10 +13,12 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import br.com.processboss.core.bean.ValidationRulesVO;
 import br.com.processboss.core.exception.ProcessExecutionException;
 import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.model.Task;
 import br.com.processboss.core.scheduling.executor.TaskExecutationManager;
+import br.com.processboss.core.scheduling.executor.rules.ExecutionRulesChain;
 import br.com.processboss.core.service.IExecutorService;
 import br.com.processboss.core.service.IServerStateService;
 import br.com.processboss.core.service.ITaskService;
@@ -118,26 +119,13 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 	 */
 	private boolean canExecuteNow(ProcessInTask processInTask) {
 		
-		/**
-		 * Verifica as dependencias
-		 */
-		Set<ProcessInTask> dependencies = processInTask.getDependencies();
-		if(dependencies != null && !dependencies.isEmpty()){
-			for (ProcessInTask dependency : dependencies) {
-				if(!executed.containsKey(dependency.getId())){
-					return false;
-				}
-			}
-		}
+		ValidationRulesVO validationRulesVO = new ValidationRulesVO();
 		
-		/**
-		 * Verifica o estado atual da maquina
-		 */
-		if(!serverStateService.canExecute(processInTask)){
-			return false;
-		}
+		validationRulesVO.setServerStateService(serverStateService);
+		validationRulesVO.setExecuted(executed);
+		validationRulesVO.setProcessInTask(processInTask);
 		
-		return true;
+		return ExecutionRulesChain.canExecute(validationRulesVO);
 	}
 
 	/**
@@ -148,8 +136,6 @@ public class TaskJob extends QuartzJobBean implements TaskExecutationManager {
 	 * @param history
 	 */
 	protected void organizeProcess(List<ProcessInTask> processes){
-		
-		//TODO: Organizar a ordem de execucao dos processos
 		
 		toExecute = new ArrayList<ProcessInTask>();
 		for (ProcessInTask processInTask : processes) {
