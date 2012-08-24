@@ -17,6 +17,7 @@ public class ServerState implements Serializable {
 	private Mem memory;
 	private CpuInfo[] cpuInfo;
 	private CpuPerc cpuPerc;
+	private Resources resourcesConsumption;
 
 	public ServerState() {
 	}
@@ -40,6 +41,10 @@ public class ServerState implements Serializable {
 	public double getCpuFree(){
 		return this.cpuPerc.getIdle() * 100;
 	}
+	
+	public double getCpuUsed(){
+		return this.cpuPerc.getCombined() * 100;
+	}
 
 	public CpuPerc getCpuPerc() {
 		return cpuPerc;
@@ -47,5 +52,13 @@ public class ServerState implements Serializable {
 
 	public void setCpuPerc(CpuPerc cpuPerc) {
 		this.cpuPerc = cpuPerc;
+	}
+
+	public Resources getResourcesConsumption() {
+		return resourcesConsumption;
+	}
+
+	public void setResourcesConsumption(Resources resourcesConsumption) {
+		this.resourcesConsumption = resourcesConsumption;
 	}
 }

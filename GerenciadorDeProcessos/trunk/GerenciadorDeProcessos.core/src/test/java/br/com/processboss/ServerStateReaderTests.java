@@ -34,10 +34,14 @@ public class ServerStateReaderTests {
 		while(true){
 			ServerState serverState = serverStateService.read();
 			assertNotNull(serverState);
-			System.out.println("### " + serverState.getMemory().getUsed() 
-					+ "/" + serverState.getMemory().getTotal()
-					+ " (" + serverState.getMemory().getUsedPercent() + "%)");
+//			System.out.println("### " + serverState.getMemory().getUsed() 
+//					+ "/" + serverState.getMemory().getTotal()
+//					+ " (" + serverState.getMemory().getUsedPercent() + "%)");
 
+			
+			System.out.println("### " + serverState.getMemory().getUsed() 
+					+ " (" + serverState.getResourcesConsumption().getMemory() + ")");
+			
 			Thread.sleep(1000);
 		}
 	}
