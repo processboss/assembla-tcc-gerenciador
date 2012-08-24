@@ -48,7 +48,7 @@ public class DashboardBean implements Serializable {
     	Date now = new Date();
     	ServerState serverState = serverStateService.read();
     	
-    	Date remove = DateUtils.addSeconds(now, -50);
+    	Date remove = DateUtils.addSeconds(now, -30);
 
     	memoryHistory.remove(sdf.format(remove));
     	memoryHistory.put(now.getTime(), serverState.getMemory().getUsedPercent());
