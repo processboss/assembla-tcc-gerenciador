@@ -11,6 +11,7 @@ import br.com.processboss.core.model.Process;
 import br.com.processboss.core.model.ProcessInTask;
 import br.com.processboss.core.scheduling.executor.TaskExecutationManager;
 import br.com.processboss.core.service.IExecutorService;
+import br.com.processboss.core.service.IServerStateService;
 
 public class ProcessExecutorThread implements Runnable {
 
@@ -24,14 +25,17 @@ public class ProcessExecutorThread implements Runnable {
 	String name;
 	
 	TaskExecutationManager manager;
+
+	private final IServerStateService serverStateService;
 	
-	public ProcessExecutorThread(String name, ProcessInTask processInTask, IExecutorService executorService, TaskExecutationManager manager) {
+	public ProcessExecutorThread(String name, ProcessInTask processInTask, IExecutorService executorService, TaskExecutationManager manager, IServerStateService serverStateService) {
 		this.processInTask = processInTask;
+		this.serverStateService = serverStateService;
 		this.process = processInTask.getProcess();
 		this.name = name;
 		this.manager = manager;
 		runner = new Thread(this, name);
-		monitor = new ProcessMonitorThread(processInTask, executorService);
+		monitor = new ProcessMonitorThread(processInTask, executorService, this.serverStateService);
 	}
 	
 	public void start(){

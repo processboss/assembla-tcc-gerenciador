@@ -9,7 +9,7 @@ import br.com.processboss.core.model.ProcessExecutionDetail;
 public class Resources {
 	
 	public static final double MARGIN = 5.0D;
-	public static final double MAX_CPU = 85.0D;
+	public static final double MAX_CPU = 90.0D;
 
 	private Double memory = 0.0D;
 	private Double cpu = 0.0D;

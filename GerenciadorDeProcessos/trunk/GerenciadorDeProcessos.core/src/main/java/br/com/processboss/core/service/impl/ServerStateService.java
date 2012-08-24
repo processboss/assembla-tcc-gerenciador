@@ -26,6 +26,9 @@ public class ServerStateService implements IServerStateService {
 	
 	private static final Map<String, ProcessInTask> IN_PROGRESS = new HashMap<String, ProcessInTask>();
 	private static final List<ProcessInTask> WAITING = new ArrayList<ProcessInTask>();
+	
+	private static final Map<Integer, Resources> resourcesConsumption = new HashMap<Integer, Resources>();
+	
 	/**
 	 * Le as informacoes de hardware do servidor
 	 * 
@@ -49,6 +52,10 @@ public class ServerStateService implements IServerStateService {
 			 */
 			serverState.setMemory(sigar.getMem());
 			
+			/**
+			 * Consumo de recursos pelos processos
+			 */
+			serverState.setResourcesConsumption(getResourcesConsumption());
 		
 		} catch (SigarException e) {
 			LOG.error("Ocorreu um erro ao obter as informacoes do servidor.");
@@ -57,27 +64,9 @@ public class ServerStateService implements IServerStateService {
 		
 		return serverState;
 	}
-
-	@Override
-	public boolean canExecute(ProcessInTask processInTask) {
-		ServerState serverState = read();
-		long serverMemory = serverState.getMemory().getTotal();
-		
-		Resources alocatedResources = getAlocatedResources();
-		
-		Resources requiredResources = new Resources(processInTask.getExecutionDetails());
-		
-		Double memoryTotal = alocatedResources.getMemory() + requiredResources.getMemory();
-		Double cpuTotal = alocatedResources.getCpu() + requiredResources.getCpu();
-		
-		if(memoryTotal > serverMemory || cpuTotal > Resources.MAX_CPU){
-			return false; 
-		}
-		
-		return true;
-	}
 	
-	protected Resources getAlocatedResources(){
+	@Override
+	public Resources getAlocatedResources(){
 		double memory = 0.0D;
 		double cpu = 0.0D;
 		for (ProcessInTask process : IN_PROGRESS.values()) {
@@ -129,6 +118,49 @@ public class ServerStateService implements IServerStateService {
 			list.add(process);
 		}
 		return list;
+	}
+
+	@Override
+	public synchronized void updateResourcesConsumption(int pid, Resources resources) {
+		resourcesConsumption.put(pid, resources); 
+	}
+
+	@Override
+	public synchronized void removeResourcesConsumption(int pid) {
+		resourcesConsumption.remove(pid); 
+	}
+
+	@Override
+	public Resources getResourcesConsumption() {
+		double mem = 0D, cpu=0D;
+		for (Resources resources : resourcesConsumption.values()) {
+			mem += resources.getMemory();
+			cpu += resources.getCpu();
+		}
+		return new Resources(mem, cpu);
+	}
+
+	@Override
+	public Resources getAvaiableResources() {
+		ServerState serverState = read();
+		Resources alocatedResources = getAlocatedResources();
+		
+		long totalMemory = serverState.getMemory().getTotal();
+		long usedMemory = serverState.getMemory().getUsed();
+		Double consumedMemory = serverState.getResourcesConsumption().getMemory();
+		Double alocatedMemory = alocatedResources.getMemory();
+		
+		Double freeMemory = totalMemory - ((usedMemory - consumedMemory) + alocatedMemory);
+		
+		
+		int totalCpu = 100;
+		double usedCpu = serverState.getCpuUsed();
+		Double consumedCpu = serverState.getResourcesConsumption().getCpu();
+		Double alocatedCpu = alocatedResources.getCpu();
+		
+		Double freeCpu = totalCpu - ((usedCpu - consumedCpu) + alocatedCpu);
+		
+		return new Resources(freeMemory, freeCpu);
 	}
 	
 }

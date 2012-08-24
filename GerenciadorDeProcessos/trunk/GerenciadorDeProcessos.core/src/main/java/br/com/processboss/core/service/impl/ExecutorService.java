@@ -14,6 +14,7 @@ import br.com.processboss.core.persistence.dao.IProcessExecutionDetailDAO;
 import br.com.processboss.core.persistence.dao.IProcessInTaskDAO;
 import br.com.processboss.core.scheduling.executor.TaskExecutationManager;
 import br.com.processboss.core.service.IExecutorService;
+import br.com.processboss.core.service.IServerStateService;
 import br.com.processboss.core.thread.ProcessExecutorThread;
 
 @Transactional(propagation=Propagation.REQUIRED)
@@ -23,11 +24,12 @@ public class ExecutorService implements IExecutorService {
 	
 	private IProcessExecutionDetailDAO processExecutionDetailDAO;
 	private IProcessInTaskDAO processInTaskDAO;
+	private IServerStateService serverStateService;
 	
 	@Override
 	public void executeProcess(ProcessInTask processInTask, String processExecutionKey, TaskExecutationManager manager) throws ProcessExecutionException {
 		try {
-			ProcessExecutorThread executor = new ProcessExecutorThread(processExecutionKey, processInTask, this, manager);
+			ProcessExecutorThread executor = new ProcessExecutorThread(processExecutionKey, processInTask, this, manager, serverStateService);
 			executor.start();
 		
 		} catch (Exception e) {
@@ -81,6 +83,14 @@ public class ExecutorService implements IExecutorService {
 
 	public void setProcessInTaskDAO(IProcessInTaskDAO processInTaskDAO) {
 		this.processInTaskDAO = processInTaskDAO;
+	}
+
+	public IServerStateService getServerStateService() {
+		return serverStateService;
+	}
+
+	public void setServerStateService(IServerStateService serverStateService) {
+		this.serverStateService = serverStateService;
 	}
 
 }
