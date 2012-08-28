@@ -10,5 +10,6 @@ public interface IProcessInTaskService extends IService<ProcessInTask, Long> {
 
 	ProcessInTask loadExecutionDetails(ProcessInTask processInTask);
 	List<ProcessInTask> findByProcess(Process process);
+	ProcessInTask loadDependencies(ProcessInTask processInTask);
 	
 }

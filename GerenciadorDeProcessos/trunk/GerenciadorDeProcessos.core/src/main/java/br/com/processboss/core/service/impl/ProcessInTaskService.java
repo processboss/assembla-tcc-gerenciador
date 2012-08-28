@@ -64,5 +64,10 @@ public class ProcessInTaskService implements IProcessInTaskService {
 		return processInTaskDAO.findByProcess(process);
 	}
 
+	@Override
+	public ProcessInTask loadDependencies(ProcessInTask processInTask) {
+		return processInTaskDAO.loadDependencies(processInTask);
+	}
+
 
 }
