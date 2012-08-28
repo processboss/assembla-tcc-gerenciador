@@ -45,7 +45,7 @@
 								<p:selectOneMenu value="#{taskController.entityProcess}" effect="fade" 
 												converter="processConverter">
 									<f:selectItem itemLabel="Selecione um processo" itemValue="0" />
-									<f:selectItems value="#{taskController.allProcesses}" var="process" itemLabel="#{process.name}" itemValue="#{process}"/>
+									<f:selectItems value="#{taskController.allProcessesDependencies}" var="process" itemLabel="#{process.name}" itemValue="#{process}"/>
 								</p:selectOneMenu>
 								<p:commandButton value="Add" ajax="false" actionListener="#{taskController.addDependencie}" update="messages" />
 							</td>
