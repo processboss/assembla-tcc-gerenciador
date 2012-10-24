@@ -21,15 +21,15 @@
 							<p:pieChart id="serverState" legendPosition="button" value="#{processDetailsBean.executionStatisticsChart}"
 								title="Estatísticas de Execução" style="width:350px;height:250px;margin-top:20px" />
 					
-							<p:dataTable id="memoryMean" value="#{processDetailsBean.memoryMean}" 
-								var="process" emptyMessage="" style="width:350px;">
-								<p:column id="memoryMeanColumn">
-									<f:facet name="header">
-										Consumo Médio de Memória
-									</f:facet>
-									<h:outputLabel value="#{process.process.name}" />
-								</p:column>
-							</p:dataTable>
+<!-- 							<p:dataTable id="memoryMean" value="#{processDetailsBean.memoryMean}"  -->
+<!-- 								var="process" emptyMessage="" style="width:350px;"> -->
+<!-- 								<p:column id="memoryMeanColumn"> -->
+<!-- 									<f:facet name="header"> -->
+<!-- 										Consumo Médio de Memória -->
+<!-- 									</f:facet> -->
+<!-- 									<h:outputLabel value="#{process.process.name}" /> -->
+<!-- 								</p:column> -->
+<!-- 							</p:dataTable> -->
 					</div>
 					
 					<br/>
@@ -47,18 +47,6 @@
 							</p:dataTable>
 						</div>
 								
-						<div style="float:right;margin-left:20px;">			
-							<p:dataTable id="waitProcessesList" value="#{processDetailsBean.waitProcesses}" 
-								var="process" emptyMessage="" style="width:350px;">
-								<p:column id="waitColumn">
-									<f:facet name="header">
-										Processos em espera
-									</f:facet>
-									<h:outputLabel value="#{process.process.name}" />
-								</p:column>
-							</p:dataTable>
-						</div>
-						
 						<p:commandButton value="Voltar" ajax="false" action="#{processController.cancel}"  />
 						
 					</div>
