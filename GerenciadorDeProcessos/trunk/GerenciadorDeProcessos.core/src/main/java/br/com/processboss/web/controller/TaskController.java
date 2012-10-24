@@ -198,16 +198,19 @@ public class TaskController extends _Bean {
 	}
 
 	public void addDependencie(ActionEvent event) {
-		ProcessInTask pit = new ProcessInTask();
-		pit.setProcess(entityProcess);
-		entityProcessInTask.getDependencies().add(pit);
+		for (ProcessInTask p : entity.getProcesses()) {
+			if(p.getProcess().getId().equals(entityProcess.getId())){
+				entityProcessInTask.getDependencies().add(p);
+				break;
+			}
+		}
 	}
 
 	public String saveOrUpdateDependency() {
 		if (entityProcessInTask != null) {
 			processInTaskService.saveOrUpdate(entityProcessInTask);
 		}
-		return "index";
+		return "newDependencies";
 	}
 
 	public List<Process> getAllProcessesDependencies() {
