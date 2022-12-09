@@ -11,7 +11,7 @@
 		<surefire.skip.tests>true</surefire.skip.tests>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<project.alias>processboss</project.alias>
-		<spring.framework.version>3.1.2.RELEASE</spring.framework.version>
+		<spring.framework.version>6.0.0</spring.framework.version>
 		<jsf.version>2.0.9</jsf.version>
 	</properties>
 
